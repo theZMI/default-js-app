@@ -18,4 +18,4 @@ function CopyJsAppToCordovaProject() {
 
 ClearCordovaProject();
 CopyJsAppToCordovaProject();
-console.log('js app copy into cordova project: DONE');
+console.log('2/4: js app copy into cordova project: DONE');

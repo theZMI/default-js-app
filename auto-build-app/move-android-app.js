@@ -16,4 +16,4 @@ function CopyAndroidApp() {
 }
 
 CopyAndroidApp();
-console.log(`copy android app to ${appDestination}: DONE`);
+console.log(`4/4: copy android app to ${appDestination}: DONE`);

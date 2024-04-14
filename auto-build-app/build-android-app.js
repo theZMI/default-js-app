@@ -8,5 +8,5 @@ async function BuildAndroidApp() {
 }
 
 BuildAndroidApp().then( () => {
-    console.log('build android app: DONE');
+    console.log('3/4: build android app: DONE');
 });
