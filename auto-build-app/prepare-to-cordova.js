@@ -43,4 +43,4 @@ function PrepareCss() {
 
 PrepareHtml();
 PrepareCss();
-console.log('1/4: prepare js app to cordova: DONE');
+console.log('1/5) prepare js app to cordova: DONE');
