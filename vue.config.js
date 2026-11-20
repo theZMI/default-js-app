@@ -57,6 +57,12 @@ module.exports = defineConfig({
     // относительные пути безопасны и для веб-версии.
     publicPath: './',
     transpileDependencies: true,
+    devServer: {
+        // Только этот компьютер: в webpack-dev-server 4 (vue-cli 5) есть известные уязвимости
+        // (path traversal в webpack-dev-middleware), а по умолчанию он слушает всю локальную сеть.
+        // Открыть с телефона в той же Wi-Fi: VUE_DEV_HOST=0.0.0.0 npm run serve
+        host: process.env.VUE_DEV_HOST || 'localhost',
+    },
     css: {
         loaderOptions: {
             scss: {

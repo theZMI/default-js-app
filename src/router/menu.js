@@ -1,7 +1,7 @@
 // Пункты меню — единый список для бокового меню (MainMenu), нижнего меню (BottomMainMenu)
 // и keep-alive страниц (App.vue). Маршруты — в router/routes.js.
 //
-//   link          — путь маршрута
+//   link          — путь маршрута (пункт подсвечен и на вложенных: /examples/compass)
 //   name          — подпись в боковом меню; shortName — в нижнем (если отличается)
 //   icon          — иконка bootstrap-icons (имя целиком, см. vue.config.js)
 //   componentName — name компонента страницы (нужен для keepAlive)
@@ -22,14 +22,14 @@ const MENU = [
         section: 'main',
     },
     {
-        link: '/device',
-        name: 'Возможности устройства',
-        shortName: 'Устройство',
-        icon: 'bi-phone-fill',
-        componentName: 'DevicePage',
+        link: '/examples',
+        name: 'Примеры возможностей',
+        shortName: 'Примеры',
+        icon: 'bi-grid-fill',
+        componentName: 'ExamplesPage',
         bottom: true,
         section: 'main',
-        feature: 'devicePage',
+        feature: 'examples',
     },
     {
         link: '/about',

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {CURRENT_VERSION, checkLatestVersion, downloadApk, installApk, downloadViaBrowser} from '@/native/appUpdates';
+import {CURRENT_VERSION, checkLatestVersion, downloadApk, installApk, downloadViaBrowser as openDownloadInBrowser} from '@/native/appUpdates';
 import {userErrorMessage} from '@/helpers/errors';
 
 // Состояния: '' (ещё не проверяли) → checking → has-updates | no-updates | check-error;
@@ -104,7 +104,13 @@ export default {
         this.state = 'download-error';
       }
     },
-    downloadViaBrowser,
+    downloadViaBrowser() {
+      try {
+        openDownloadInBrowser();
+      } catch (e) {
+        this.errorText = userErrorMessage(e, 'Не удалось открыть ссылку на обновление');
+      }
+    },
   },
 }
 </script>

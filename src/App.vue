@@ -98,51 +98,9 @@ export default {
 
 <style lang="scss">
 @import "@/styles/scss/bootstrap-overwrite.scss";
-// Не весь бутстрап, а только используемые модули (полный вариант давал ~340КБ CSS,
-// из которых большая часть — таблицы/аккордеоны/пагинация, которых в приложении нет).
-// Порядок служебных импортов — как в документации Bootstrap 5.3.
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/variables-dark";
-@import "~bootstrap/scss/maps";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/utilities";
-// Утилиты — тоже не все: из ~1300 классов (каждый ещё и в 5 адаптивных вариантах)
-// в разметке используется несколько десятков. Оставлены только группы ниже и без
-// адаптивных/print-вариантов (d-md-…, d-print-… в приложении нет). Понадобится новая
-// группа (например gap-2 → "gap") или адаптивный вариант — добавьте её сюда.
-$utilities-in-use: (
-  "display", "position", "top", "bottom", "end", "border", "border-top", "border-bottom",
-  "width", "flex-wrap", "align-items", "margin", "margin-y", "margin-top", "margin-end",
-  "margin-bottom", "padding", "padding-x", "padding-y", "padding-top", "padding-bottom",
-  "text-align", "white-space", "color", "background-color", "rounded", "visibility", "z-index",
-);
-$utilities-trimmed: ();
-@each $key, $utility in $utilities {
-  @if index($utilities-in-use, $key) {
-    $utilities-trimmed: map-merge($utilities-trimmed, ($key: map-merge($utility, (responsive: false, print: false))));
-  }
-}
-$utilities: $utilities-trimmed;
-@import "~bootstrap/scss/root";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
-@import "~bootstrap/scss/containers";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/forms";
-@import "~bootstrap/scss/buttons";
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
-@import "~bootstrap/scss/card";
-@import "~bootstrap/scss/progress";
-@import "~bootstrap/scss/spinners";
-@import "~bootstrap/scss/close";
-@import "~bootstrap/scss/toasts";
-@import "~bootstrap/scss/modal";
-@import "~bootstrap/scss/offcanvas";
-@import "~bootstrap/scss/helpers";
-@import "~bootstrap/scss/utilities/api";
+// Bootstrap: только используемые модули/утилиты — почему и как расширить, см. сам файл.
+// Нужен весь — замените на "@/styles/scss/bootstrap-full.scss" (и import 'bootstrap' в main.js).
+@import "@/styles/scss/bootstrap-trimmed.scss";
 @import "@/styles/scss/font-ptsans.scss";
 @import "@/styles/scss/keyframes.scss";
 @import "@/styles/scss/my-vars.scss";

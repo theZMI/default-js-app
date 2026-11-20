@@ -32,7 +32,7 @@ export default {
     },
     // options.timeout — для тяжёлых запросов, по умолчанию CONF_TIMEOUT
     async _call(uri, method, data, options = {}) {
-        store.commit('networkInformation/update', { status: 'loading' });
+        store.dispatch('networkInformation/update', { status: 'loading' });
         const send_request_time = Math.floor(Date.now() / 1000);
 
         try { // Запрос выполнился успешно, и is_success==true
@@ -41,8 +41,9 @@ export default {
                 responseType: 'json',
                 timeout: options.timeout ?? this.CONF_TIMEOUT,
                 method,
-                params: method === 'GET' ? data : [],
-                data,
+                // GET — параметры в query, тело только у остальных методов
+                params: method === 'GET' ? data : undefined,
+                data: method === 'GET' ? undefined : data,
                 headers: {
                     'Content-Type' : 'application/json; charset=UTF-8',
                     'API-Request-Time': send_request_time.toString(),
@@ -58,7 +59,7 @@ export default {
             };
 
             if (this.lastResponse.is_success) {
-                store.commit('networkInformation/update', { status: 'success' });
+                store.dispatch('networkInformation/update', { status: 'success' });
                 return this.lastResponse.data;
             }
         } catch (e) { // Ошибка выполнения запроса
@@ -71,7 +72,7 @@ export default {
                 is_server_maintenance: e?.response?.status === 503,
                 error: e,
             };
-            store.commit('networkInformation/update', {
+            store.dispatch('networkInformation/update', {
                 // значок «нет сети» — только если ответа не было вовсе
                 status: e?.response ? 'success' : 'error',
                 lastError: this.lastResponse.data.message
@@ -84,7 +85,7 @@ export default {
         }
 
         // Запрос успешно выполнился, но is_error==true
-        store.commit('networkInformation/update', {
+        store.dispatch('networkInformation/update', {
             status: 'success', // ответ сервера получен — с сетью всё в порядке
             lastError: this.lastResponse.data?.message
         });

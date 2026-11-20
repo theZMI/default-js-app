@@ -1,0 +1,73 @@
+// Bootstrap 5 — ТОЛЬКО нужные модули и утилиты (подключается в App.vue).
+//
+// Почему не весь: замер на этой заготовке — полный Bootstrap даёт 241 КБ CSS (34 КБ gzip),
+// этот вариант — ~152 КБ (~24 КБ gzip). Плюс JS: полный `import 'bootstrap'` — ещё +60 КБ,
+// у нас из JS подключён только offcanvas (main.js). Меньше CSS — быстрее первый показ
+// веб-версии/PWA на мобильном интернете и меньше работы стилям на слабых телефонах.
+//
+// Цена: класс из неподключённого модуля/группы утилит молча не работает. Тогда:
+//  - модуль (таблица, аккордеон, дропдаун…) — раскомментируйте его ниже;
+//  - утилита (gap-2, fs-5, d-md-flex…) — добавьте группу в $utilities-in-use
+//    (имя группы — ключ из bootstrap/scss/_utilities.scss), для d-md-… — включите responsive.
+// Не хотите об этом думать — в App.vue замените импорт этого файла на bootstrap-full.scss.
+//
+// Порядок служебных импортов — как в документации Bootstrap 5.3.
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/variables-dark";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+
+// Группы утилит, которые попадают в сборку (каждая — без адаптивных и print-вариантов)
+$utilities-in-use: (
+  "display", "position", "top", "bottom", "start", "end", "z-index", "overflow",
+  "width", "height", "flex", "flex-direction", "flex-grow", "flex-shrink", "flex-wrap",
+  "justify-content", "align-items", "align-self", "gap", "order",
+  "margin", "margin-x", "margin-y", "margin-top", "margin-end", "margin-bottom", "margin-start",
+  "padding", "padding-x", "padding-y", "padding-top", "padding-end", "padding-bottom", "padding-start",
+  "font-size", "font-weight", "text-align", "text-decoration", "text-wrap", "white-space", "word-wrap",
+  "color", "background-color", "opacity", "border", "border-top", "border-bottom", "rounded",
+  "visibility", "user-select", "pointer-events",
+);
+$utilities-trimmed: ();
+@each $key, $utility in $utilities {
+  @if index($utilities-in-use, $key) {
+    $utilities-trimmed: map-merge($utilities-trimmed, ($key: map-merge($utility, (responsive: false, print: false))));
+  }
+}
+$utilities: $utilities-trimmed;
+
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+// @import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/dropdown";       // + import 'bootstrap/js/dist/dropdown' в main.js
+@import "~bootstrap/scss/button-group";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/accordion";      // + import 'bootstrap/js/dist/collapse'
+// @import "~bootstrap/scss/breadcrumb";
+// @import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/toasts";
+@import "~bootstrap/scss/modal";             // своя PopupMessage; для JS-модалок + import 'bootstrap/js/dist/modal'
+// @import "~bootstrap/scss/tooltip";
+// @import "~bootstrap/scss/popover";
+// @import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/spinners";
+@import "~bootstrap/scss/offcanvas";
+// @import "~bootstrap/scss/placeholders";
+@import "~bootstrap/scss/helpers";
+@import "~bootstrap/scss/utilities/api";

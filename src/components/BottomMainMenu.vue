@@ -37,7 +37,10 @@ export default {
   },
   methods: {
     isActive(item) {
-      return [item.link, ...(item.aliases || [])].includes(this.$route.path);
+      const path = this.$route.path;
+      if ([item.link, ...(item.aliases || [])].includes(path)) return true;
+      // Вложенные страницы раздела (/examples/compass) подсвечивают его пункт; главную — только точно
+      return item.link !== '/' && path.startsWith(item.link + '/');
     },
   }
 }

@@ -9,7 +9,7 @@
       <div class="offcanvas-menu-list">
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuTop" :key="item.link">
-            <router-link class="menu-item" :class="{active: $route.path === item.link}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
           </li>
         </ul>
       </div>
@@ -17,7 +17,7 @@
         <div class="header text-secondary">Дополнительно:</div>
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuBottom" :key="item.link">
-            <router-link class="menu-item" :class="{active: $route.path === item.link}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
           </li>
         </ul>
       </div>
@@ -48,6 +48,10 @@ export default {
     },
   },
   methods: {
+    isActive(item) {
+      const path = this.$route.path;
+      return path === item.link || (item.link !== '/' && path.startsWith(item.link + '/'));
+    },
     openMenu() {
       this.$refs.menuOpenButton.click();
     },

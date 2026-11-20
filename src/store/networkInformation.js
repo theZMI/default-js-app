@@ -1,35 +1,39 @@
 import { delay } from "@/helpers/delay";
 
+// Индикатор сети (компонент NetworkStatus): крутилка показывается, только если запрос
+// идёт дольше LOADING_DELAY_MS, иконка «нет сети» — если ответа не было вовсе.
+// Вызывается из libraries/Api.js: store.dispatch('networkInformation/update', {status, lastError}).
+const LOADING_DELAY_MS = 2000;
+
+// Счётчик запросов: «ждём 2 секунды и показываем крутилку» не должно сработать,
+// если за это время запрос завершился и успел начаться следующий (раньше проверка была
+// по последнему статусу, и быстрые запросы подряд давали ложную крутилку)
+let loadingSeq = 0;
+
 export const networkInformation = {
     namespaced: true,
     state() {
         return {
-            _status: '', // Нужен, чтобы устанавливать status с задержкой. Это позволяет не сразу отображать крутилку, а только через 0.5сек
             status: '', // loading, error, success, ''
-            lastError: ''
+            lastError: '',
         }
     },
     mutations: {
-        async update(state, {status, lastError = ''}) {
-            state._status = status;
-
-            switch (status) {
-                // loading будет отображаться только тогда когда запрос не успел выполниться за пару секунд
-                case 'loading':
-                    // Пусть какой-то запрос захотел поставить loading. Мы запишем в _status=loading и подождём пару секунд.
-                    // Если спустя пару секунд _status === loading, значит запрос не завершился, пора отобразить исполнение запроса
-                    await delay(2000);
-                    if (state._status !== 'loading') {
-                        return;
-                    }
-                    state.status = 'loading';
-                    break;
-                case 'success':
-                case 'error':
-                    state.status = status;
-                    state.lastError = lastError;
-                    break;
-            }
+        // Мутации в vuex обязаны быть синхронными — вся логика с ожиданием в действии ниже
+        setStatus(state, {status, lastError = ''}) {
+            state.status = status;
+            if (status !== 'loading') state.lastError = lastError;
         },
-    }
+    },
+    actions: {
+        async update({ commit }, {status, lastError = ''}) {
+            const seq = ++loadingSeq;
+            if (status !== 'loading') {
+                commit('setStatus', {status, lastError});
+                return;
+            }
+            await delay(LOADING_DELAY_MS);
+            if (seq === loadingSeq) commit('setStatus', {status: 'loading'});
+        },
+    },
 }

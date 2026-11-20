@@ -4,7 +4,7 @@
       <i class="bi" :class="icon"></i>
     </div>
     <div class="mb-3">
-      <div class="info-block-label mb-3" v-html="label" />
+      <div class="info-block-label mb-3">{{ label }}</div>
       <slot />
     </div>
   </div>

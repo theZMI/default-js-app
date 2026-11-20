@@ -26,6 +26,15 @@ export const FEATURES = {
     // в вебе — BarcodeDetector по фото (Chrome на Android/macOS; в Safari/Firefox его нет)
     scanner: true,
 
+    // Микрофон: запись звука и уровень громкости — getUserMedia + MediaRecorder, без плагинов.
+    // В Android WebView нужен runtime-доступ RECORD_AUDIO (запрашивается через
+    // cordova-plugin-android-permissions) и разрешение в config.xml cordova-проекта.
+    microphone: true,
+
+    // Датчики движения: наклон (пузырьковый уровень), ускорение, встряхивание —
+    // DeviceOrientationEvent/DeviceMotionEvent, без плагинов. iOS спрашивает разрешение по жесту.
+    motion: true,
+
     // Вибрация: navigator.vibrate (Android; iOS не поддерживает)
     vibration: !isIos,
 
@@ -62,7 +71,8 @@ export const FEATURES = {
     // PWA: service worker (офлайн-оболочка) и manifest — только в настоящем браузере
     pwa: isWeb,
 
-    // Демо-страница «Возможности устройства» (/device) — проверка всего перечисленного.
-    // В боевом приложении выключить.
-    devicePage: true,
+    // Раздел «Примеры» (/examples) — мини-приложения на каждую возможность: компас,
+    // GPS-трекер, сканер, камера, диктофон, уровень… Код — src/components/examples/.
+    // В боевом приложении выключить (или удалить папку и маршруты).
+    examples: true,
 };

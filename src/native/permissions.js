@@ -10,6 +10,7 @@ export const PERMISSIONS = {
     FINE_LOCATION: 'android.permission.ACCESS_FINE_LOCATION',
     COARSE_LOCATION: 'android.permission.ACCESS_COARSE_LOCATION',
     CAMERA: 'android.permission.CAMERA',
+    RECORD_AUDIO: 'android.permission.RECORD_AUDIO',
     POST_NOTIFICATIONS: 'android.permission.POST_NOTIFICATIONS',
     READ_MEDIA_IMAGES: 'android.permission.READ_MEDIA_IMAGES',
     READ_MEDIA_AUDIO: 'android.permission.READ_MEDIA_AUDIO',

@@ -4,10 +4,10 @@
     <p class="text-secondary">{{ appDescription }}</p>
 
     <div class="home-cards">
-      <router-link v-if="hasDevicePage" to="/device" class="home-card">
-        <i class="bi bi-phone-fill"></i>
-        <span>Возможности устройства</span>
-        <small class="text-secondary">GPS, компас, камера, сканер, файлы, фоновый режим…</small>
+      <router-link v-if="hasExamples" to="/examples" class="home-card">
+        <i class="bi bi-grid-fill"></i>
+        <span>Примеры возможностей</span>
+        <small class="text-secondary">Компас, GPS-трекер, сканер, камера, диктофон, уровень, фоновый режим…</small>
       </router-link>
       <router-link to="/about" class="home-card">
         <i class="bi bi-info-circle-fill"></i>
@@ -33,7 +33,7 @@ export default {
     return {
       appName: APP.NAME,
       appDescription: APP.DESCRIPTION,
-      hasDevicePage: FEATURES.devicePage,
+      hasExamples: FEATURES.examples,
       hasUpdates: FEATURES.appUpdates,
     }
   },

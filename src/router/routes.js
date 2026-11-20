@@ -1,10 +1,11 @@
 import {FEATURES} from '@/config/features';
 import HomePage from "@/components/HomePage.vue";
+import {exampleRoutes} from "@/components/examples";
 
 // Стартовая страница — в основном бандле. Остальные — отдельными чанками: первый
 // запуск не разбирает их JS. vue-cli добавляет на них <link rel="prefetch">, так что
 // браузер докачивает их в простое (а service worker кладёт в кэш для офлайна).
-const DevicePage = () => import("@/components/DevicePage.vue");
+const ExamplesPage = () => import("@/components/examples/ExamplesPage.vue");
 const AboutPage = () => import("@/components/AboutPage.vue");
 const CheckUpdatesPage = () => import("@/components/CheckUpdatesPage.vue");
 const NotFoundPage = () => import("@/components/NotFoundPage.vue");
@@ -21,11 +22,12 @@ export const routes = [
         path: '/android_asset/www/index.html',
         redirect: '/',
     },
-    ...(FEATURES.devicePage ? [{
-        path: '/device',
-        name: 'device',
-        component: DevicePage,
-    }] : []),
+    // Раздел «Примеры»: хаб + по странице на каждую возможность (src/components/examples/)
+    ...(FEATURES.examples ? [{
+        path: '/examples',
+        name: 'examples',
+        component: ExamplesPage,
+    }, ...exampleRoutes] : []),
     {
         path: '/about',
         name: 'about',

@@ -3,7 +3,7 @@
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Загрузка...</span>
     </div>
-    <div class="mt-3" v-html="label" v-if="label.length"></div>
+    <div class="mt-3 my-loader-label" v-if="label.length">{{ label }}</div>
   </div>
 </template>
 

@@ -8,8 +8,14 @@ const fs = require('fs');
 const path = require('path');
 const { GetJsAppProjectDir, AssertDist } = require('./_helpers');
 
-const CSP = `default-src * 'unsafe-inline' 'unsafe-eval'; ` +
-    `script-src * blob: 'unsafe-inline' 'unsafe-eval'; ` +
+// 'unsafe-eval' не нужен: Vue 3 собирается runtime-only (шаблоны компилируются при сборке),
+// а без него XSS не может выполнить строку как код через eval/new Function.
+// 'unsafe-inline' пока остаётся — в index.html инлайн-скрипт запрета жестов-зума.
+// object-src 'none' и base-uri 'self' — закрывают плагины и подмену базового URL.
+const CSP = `default-src * 'unsafe-inline'; ` +
+    `script-src 'self' blob: 'unsafe-inline'; ` +
+    `object-src 'none'; ` +
+    `base-uri 'self'; ` +
     `worker-src * blob: data:; ` +
     `connect-src * blob: data: 'unsafe-inline'; ` +
     `media-src * data: blob:; ` +
@@ -28,7 +34,8 @@ function PrepareHtml() {
     if (!data.includes('src="cordova.js"')) {
         data = data.replace('</body>', '<script src="cordova.js"></script></body>');
     }
-    data = data.replaceAll('href="/', 'href="').replaceAll('src="/', 'src="');
+    // "/x" → "x", но "//cdn.example.com/x" (протокол-относительные ссылки) не трогаем
+    data = data.replace(/(href|src)="\/(?!\/)/g, '$1="');
 
     fs.writeFileSync(file, data, 'utf-8');
 }
@@ -40,7 +47,7 @@ function PrepareCss() {
         if (!file.endsWith('.css')) continue;
         const full = path.join(dir, file);
         let data = fs.readFileSync(full, 'utf-8');
-        data = data.replaceAll('url(/', 'url(../');
+        data = data.replace(/url\((['"]?)\/(?!\/)/g, 'url($1../');
         fs.writeFileSync(full, data, 'utf-8');
     }
 }

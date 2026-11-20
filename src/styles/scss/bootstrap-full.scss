@@ -1,0 +1,5 @@
+// Bootstrap 5 целиком: все модули и все утилиты (включая адаптивные d-md-… и т.п.).
+// Чтобы включить — в App.vue вместо bootstrap-trimmed.scss импортируйте этот файл,
+// а в main.js вместо 'bootstrap/js/dist/offcanvas' — `import 'bootstrap'`.
+// Стоимость: ~+90 КБ CSS и ~+60 КБ JS (см. комментарий в bootstrap-trimmed.scss).
+@import "~bootstrap/scss/bootstrap";
