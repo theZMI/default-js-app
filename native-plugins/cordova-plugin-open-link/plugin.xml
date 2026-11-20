@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-open-link"
+        version="1.0.0">
+    <name>OpenLink</name>
+    <description>Открытие приложения по ссылке: https://LINK_HOST/LINK_PATH_PREFIX… (Android App Links) и URL_SCHEME://…</description>
+    <license>Apache 2.0</license>
+
+    <!-- Сайт приложения: его ссылки (с путём LINK_PATH_PREFIX) открывают приложение. Подтверждение для
+         Android 12+ — /.well-known/assetlinks.json на сайте (SHA256 ключа подписи APK).
+         Задаются при установке: cordova plugin add … --variable LINK_HOST=site.ru --variable URL_SCHEME=myapp -->
+    <preference name="LINK_HOST" default="example.com" />
+    <preference name="LINK_PATH_PREFIX" default="/" />
+    <!-- Своя схема: myapp://open?url=… (кнопка «Открыть в приложении» на сайте) -->
+    <preference name="URL_SCHEME" default="defaultjsapp" />
+
+    <js-module src="www/OpenLink.js" name="OpenLink">
+        <clobbers target="cordova.plugins.OpenLink" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="OpenLink">
+                <param name="android-package" value="pro.thezmi.cordova.openlink.OpenLinkPlugin" />
+                <!-- сразу при старте: ссылка, которой запустили приложение, лежит в интенте активности -->
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application/activity[@android:name='MainActivity']">
+            <!-- https-ссылки сайта. autoVerify: если сайт подтвердил (assetlinks.json),
+                 Android 12+ открывает их сразу в приложении; иначе — в браузере -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="$LINK_HOST" android:pathPrefix="$LINK_PATH_PREFIX" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="$URL_SCHEME" />
+            </intent-filter>
+        </config-file>
+        <source-file src="src/android/OpenLinkPlugin.java" target-dir="src/pro/thezmi/cordova/openlink" />
+    </platform>
+
+    <platform name="ios">
+        <!-- Только схема: универсальные ссылки (https) требуют Associated Domains в профиле
+             разработчика Apple. Ссылку схемы Cordova сама передаёт в window.handleOpenURL -->
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleURLName</key>
+                    <string>$PACKAGE_NAME</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>$URL_SCHEME</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+    </platform>
+</plugin>

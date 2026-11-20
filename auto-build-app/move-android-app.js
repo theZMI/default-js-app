@@ -1,19 +1,20 @@
 const fs = require('fs');
-const { GetJsAppProjectDir, GetCordovaProjectDir } = require("./_helpers");
+const { GetJsAppProjectDir, GetCordovaProjectDir, APK_DEBUG_PATH } = require('./_helpers');
 
+// Имя APK — версия из package.json js-приложения (её же сверяет самообновление)
 const config = JSON.parse(fs.readFileSync(GetJsAppProjectDir('package.json'), 'utf-8'));
 const destinationDir = GetJsAppProjectDir('dist-apps/');
 const destinationApk = destinationDir + config.version + '.apk';
 
 function CopyAndroidApp() {
-    if (!fs.existsSync(destinationDir)){
-        fs.mkdirSync(destinationDir);
+    const sourceApk = GetCordovaProjectDir(APK_DEBUG_PATH);
+
+    if (!fs.existsSync(sourceApk)) {
+        throw new Error(`APK не найден: ${sourceApk}`);
     }
 
-    fs.cpSync(
-        GetCordovaProjectDir('platforms/android/app/build/outputs/apk/debug/app-debug.apk'),
-        destinationApk,
-    );
+    fs.mkdirSync(destinationDir, { recursive: true });
+    fs.cpSync(sourceApk, destinationApk);
 }
 
 CopyAndroidApp();

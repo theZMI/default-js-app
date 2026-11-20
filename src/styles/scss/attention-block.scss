@@ -1,0 +1,18 @@
+.attention-block {
+  padding: 0 15px;
+  margin: -7px 0 30px 0;
+  border-left: 2px solid red;
+
+  &-header {
+    color: #FFF;
+    background: #ff0000;
+    padding: 0 5px;
+    border-radius: 0 5px 5px 0;
+    margin-left: -15px;
+    margin-top: 1px;
+    font-size: 13px;
+    display: block;
+    width: fit-content;
+    margin-bottom: 7px;
+  }
+}

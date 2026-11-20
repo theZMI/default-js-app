@@ -1,0 +1,16 @@
+// Переопределения переменных Bootstrap — БЕЗ CSS-правил. Этот файл безопасно
+// импортировать в scoped-стили компонентов (нужны $primary/$danger и т.п.):
+// переменные ничего не весят в бандле, в отличие от правил, которые при импорте
+// в каждый компонент дублировались бы в итоговом CSS.
+$primary: #0066FF;
+$success: #009c00;
+$danger: #FF2929;
+$warning: orange;
+$secondary: #555;
+$alert-color: #FFF;
+$border-color-dark: #212529;
+$offcanvas-border-color: transparent;
+$spinner-width-sm: 1.25rem;
+$spinner-height-sm: 1.25rem;
+$font-size-base: 1.1rem;
+$body-font-family: 'PT Sans', 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;

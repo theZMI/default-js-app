@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="manifest" href="<%= BASE_URL %>manifest.webmanifest">
+    <meta name="theme-color" content="#000000">
+
+    <!-- iOS: добавление на экран «Домой» как standalone-приложения -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Default JS App">
+    <link rel="apple-touch-icon" href="<%= BASE_URL %>img/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="<%= BASE_URL %>img/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="<%= BASE_URL %>img/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= BASE_URL %>img/icons/apple-touch-icon-180x180.png">
+
+    <title>Default JS App</title>
+    <script>
+      // Запрещаем Safari gesture zoom (pinch)
+      document.addEventListener('gesturestart', function (e) {
+          e.preventDefault();
+      }, { passive: false });
+
+      document.addEventListener('gesturechange', function (e) {
+          e.preventDefault();
+      }, { passive: false });
+
+      document.addEventListener('gestureend', function (e) {
+          e.preventDefault();
+      }, { passive: false });
+
+      // Запрещаем double-click / double-tap zoom
+      document.addEventListener('dblclick', function (e) {
+          e.preventDefault();
+      }, { passive: false });
+
+      // Запрещаем zoom через pinch на trackpad,
+      // который браузер может передавать как Ctrl + Wheel
+      document.addEventListener('wheel', function (e) {
+          if (e.ctrlKey) {
+              e.preventDefault();
+          }
+      }, { passive: false });
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <strong>Для работы приложения нужен включённый JavaScript.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

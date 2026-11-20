@@ -1,0 +1,31 @@
+{
+  "name": "default-js-app",
+  "version": "1.0.0",
+  "author": "theZMI <zmigpost@gmail.com>",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^1.7.5",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "core-js": "^3.38.1",
+    "idb": "^8.0.2",
+    "pull-refresh-vue3": "^0.3.1",
+    "semver": "^7.6.3",
+    "viewport-extra": "^3.0.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.4.3",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "^5.0.8",
+    "sass": "^1.77.8",
+    "sass-loader": "^16.0.1"
+  }
+}

@@ -1,10 +1,30 @@
+const fs = require('fs');
 const path = require('path');
 
-exports.GetJsAppProjectDir = (append = '') => {
-    const root = path.resolve('.');
-    return root + '/' + append;
-}
+// Корень js-приложения — от расположения скриптов, а не от текущей папки:
+// скрипты работают, даже если их запустили не из корня проекта.
+const JS_APP_ROOT = path.resolve(__dirname, '..');
+// Cordova-проект лежит рядом и называется так же, но с суффиксом -cordova
+const CORDOVA_ROOT = JS_APP_ROOT + '-cordova';
 
-exports.GetCordovaProjectDir = (append = '') => {
-    return exports.GetJsAppProjectDir().slice(0, -1) + '-cordova/' + append;
-}
+exports.GetJsAppProjectDir = (append = '') => path.join(JS_APP_ROOT, append);
+
+exports.GetCordovaProjectDir = (append = '') => path.join(CORDOVA_ROOT, append);
+
+exports.APK_DEBUG_PATH = 'platforms/android/app/build/outputs/apk/debug/app-debug.apk';
+
+// Понятная ошибка вместо ENOENT посреди сборки
+exports.AssertCordovaProject = () => {
+    if (!fs.existsSync(path.join(CORDOVA_ROOT, 'config.xml'))) {
+        console.error(`Не найден cordova-проект: ${CORDOVA_ROOT}\n` +
+            `Создайте его рядом (папка с тем же именем + "-cordova"), см. README.md.`);
+        process.exit(1);
+    }
+};
+
+exports.AssertDist = () => {
+    if (!fs.existsSync(path.join(JS_APP_ROOT, 'dist/index.html'))) {
+        console.error('Нет dist/index.html — сначала соберите приложение (npm run build).');
+        process.exit(1);
+    }
+};

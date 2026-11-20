@@ -1,2 +1,33 @@
 .DS_Store
+# dist/ целиком пересоздаётся каждой сборкой — .gitkeep в нём не выживает
+/dist
+/dist-apps/*
+!/dist-apps/.gitkeep
+/node_modules
+package-lock.json
+
+# Локальные настройки окружения: создаются из src/envs/*.example.js при первом serve/build
+# (см. vue.config.js). Адреса серверов/флаги отладки у каждого проекта свои.
+/src/envs/*.js
+!/src/envs/*.example.js
+.env.local
+.env.*.local
+.claude/settings.local.json
+
+# Генерируется при сборке (см. vue.config.js)
+/src/styles/scss/_bootstrap-icons-glyphs.scss
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
 .idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

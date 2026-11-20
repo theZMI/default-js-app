@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-audio-output"
+        version="1.0.0">
+    <name>AudioOutput</name>
+    <description>Перечисление и переключение аудиовыходов (динамик, наушники, Bluetooth) на Android.</description>
+    <license>Apache 2.0</license>
+
+    <js-module src="www/AudioOutputProxy.js" name="AudioOutputProxy">
+        <clobbers target="cordova.plugins.AudioOutput" />
+    </js-module>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AudioOutput">
+                <param name="android-package" value="pro.thezmi.cordova.audiooutput.AudioOutputPlugin" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+            <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+        </config-file>
+        <source-file src="src/android/AudioOutputPlugin.java" target-dir="src/pro/thezmi/cordova/audiooutput" />
+    </platform>
+</plugin>

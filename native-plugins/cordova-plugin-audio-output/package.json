@@ -1,0 +1,12 @@
+{
+  "name": "cordova-plugin-audio-output",
+  "version": "1.0.0",
+  "description": "Перечисление и переключение аудиовыходов (динамик, наушники, Bluetooth) на Android",
+  "cordova": {
+    "id": "cordova-plugin-audio-output",
+    "platforms": [
+      "android"
+    ]
+  },
+  "license": "Apache-2.0"
+}

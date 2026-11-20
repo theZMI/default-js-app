@@ -1,0 +1,83 @@
+// Правила поверх Bootstrap — импортируется ТОЛЬКО в App.vue (глобально).
+// Компонентам, которым нужны переменные ($primary и т.п.), — bootstrap-vars.scss.
+@import "bootstrap-vars";
+@import "my-vars";
+
+#app {
+  .alert-danger {
+    color: #FFF;
+    background-color: $danger;
+    border: transparent;
+  }
+
+  .btn {
+    border: 1px solid $site-active-element-border;
+    color: #FFF;
+    text-shadow: 0 1px rgba(0,0,0, 0.15);
+
+    &-primary {
+    }
+
+    &-secondary {
+      background-color: #222;
+
+      &:active, &:focus {
+        background-color: #444;
+        color: #FFF;
+      }
+    }
+
+    &-min-width {
+      min-width: 200px;
+    }
+
+    &-sm {
+      font-size: 13px;
+    }
+
+    &-lg {
+      font-size: 17px;
+    }
+  }
+
+  .form-control {
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:focus {
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: none;
+    }
+  }
+
+  .btn-link {
+    text-decoration: none;
+    border: none;
+  }
+
+  .modal {
+    &-footer {
+      justify-content: center;
+    }
+  }
+
+  .offcanvas-backdrop.show {
+    opacity: 0.75;
+    backdrop-filter: $site-modal-blur;
+  }
+
+  .offcanvas.offcanvas-bottom {
+    min-height: 300px;
+
+    .offcanvas-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 60px;
+      padding-bottom: 0;
+    }
+  }
+
+  .text-secondary {
+    color: rgba(255,255,255, 0.5) !important;
+  }
+}

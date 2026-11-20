@@ -1,0 +1,13 @@
+{
+  "name": "cordova-plugin-open-link",
+  "version": "1.0.0",
+  "description": "Открытие приложения по ссылке (https App Links и своя URL-схема)",
+  "cordova": {
+    "id": "cordova-plugin-open-link",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "license": "Apache-2.0"
+}
