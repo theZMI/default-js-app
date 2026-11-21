@@ -9,7 +9,7 @@
       <div class="offcanvas-menu-list">
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuTop" :key="item.link">
-            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ item.name }}</span></router-link>
           </li>
         </ul>
       </div>
@@ -17,7 +17,7 @@
         <div class="header text-secondary">Дополнительно:</div>
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuBottom" :key="item.link">
-            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><i class="bi" :class="item.icon"></i><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ item.name }}</span></router-link>
           </li>
         </ul>
       </div>
@@ -124,11 +124,6 @@ export default {
     width: 100%;
     text-align: left;
     text-decoration: none;
-
-    .bi {
-      margin-right: 12px;
-      opacity: 0.5;
-    }
 
     &.active {
       color: $primary;

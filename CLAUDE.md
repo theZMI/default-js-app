@@ -20,6 +20,8 @@
 - `src/envs/local.js`, `prod.js` не в git, создаются из `*.example.js` (`vue.config.js`).
 - Пункты меню — `src/router/menu.js`, маршруты — `src/router/routes.js`.
 - Тексты ошибок пользователю — через `helpers/errors.js` (`userErrorMessage`).
+- Дизайн — как в zmi-music-player-app: страницы собирать из классов `styles/scss/ui.scss` (`page-title`,
+  `glass-card`, `menu-tile`…) и миксинов `mixins.scss`, а не придумывать новые стили карточек/списков.
 - Иконки `bi-…` писать целиком (в прод-сборку попадают только найденные в `src/`).
 - Версия приложения — `version` в `package.json` (имя APK, самообновление).
 

@@ -181,6 +181,9 @@ cordova plugin add ../my-app/native-plugins/cordova-plugin-open-link --save \
 - `helpers/errors.js` — `userErrorMessage(e)`: понятный текст ошибки без технических деталей.
 - `components/UI/` — глобальные компоненты: `my-loader`, `info-block`, `popup-message`, `network-status`, `switcher-sizes`.
 - `directives/` — `v-swipe-left`, `v-swipe-right`.
+- `styles/scss/ui.scss` — общие блоки интерфейса в стиле zmi-music-player-app: `page-title`, `page-lead`
+  (описание «цитатой»), `glass-card` (+`-header`, `-hint`), `menu-tiles`/`menu-tile` (плитки-меню с иконкой
+  и описанием), `stats-grid`, `icon-button`. Свои вариации — миксинами из `styles/scss/mixins.scss`.
 - `styles/scss/` — Bootstrap 5 (урезанный, см. раздел выше), шрифт PT Sans,
   стеклянные панели. Из bootstrap-icons в сборку попадают только встречающиеся в `src/` иконки —
   **имена `bi-…` писать целиком**.

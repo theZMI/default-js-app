@@ -1,11 +1,11 @@
 <template>
-  <div class="fixed-bottom bottom-main-menu-wrapper bottom-main-menu-wrapper-2" v-if="showMenu">
+  <div class="fixed-bottom bottom-main-menu-wrapper" v-if="showMenu">
     <div class="bottom-main-menu">
-      <button v-if="addButtonAllMenu" class="bottom-main-menu-item" type="button" @click="$emit('openMainMenu')">
+      <button v-if="addButtonAllMenu" class="bottom-main-menu-item" type="button" aria-label="Всё меню" @click="$emit('openMainMenu')">
         <i class="bi bi-list"></i>
         <span>Всё меню</span>
       </button>
-      <router-link v-for="item in menu" :key="item.link" class="bottom-main-menu-item" :class="{'active': isActive(item)}" :to="item.link" @click="$emit('closeMainMenu')">
+      <router-link v-for="item in menu" :key="item.link" :aria-label="item.shortName || item.name" class="bottom-main-menu-item" :class="{'active': isActive(item)}" :to="item.link" @click="$emit('closeMainMenu')">
         <i class="bi" :class="item.icon"></i>
         <span>
           {{ item.shortName || item.name }}
@@ -167,7 +167,8 @@ export default {
       font-size: 13px;
       white-space: nowrap;
       padding-top: 7px;
-      display: block; // подписи под иконками; для «только иконки» — display: none
+      display: none; // только иконки, как в плеере; подписи под иконками — display: block
+                     // (и высоту меню/отступ $site-bottom-menu-offset тогда увеличить)
 
       .badge {
         font-size: 13px;

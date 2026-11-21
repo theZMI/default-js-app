@@ -1,11 +1,8 @@
 <template>
   <div class="default-page ex-page">
-    <div class="ex-header">
-      <router-link to="/examples" class="ex-back" aria-label="Ко всем примерам"><i class="bi bi-chevron-left"></i></router-link>
-      <i class="bi ex-header-icon" :class="example.icon"></i>
-      <h1 class="ex-title">{{ example.name }}</h1>
-    </div>
-    <p v-if="example.desc" class="ex-desc">{{ example.desc }}</p>
+    <router-link to="/examples" class="ex-back"><i class="bi bi-chevron-left"></i> Все примеры</router-link>
+    <h1 class="page-title ex-title">{{ example.name }}</h1>
+    <div v-if="example.desc" class="page-lead">{{ example.desc }}</div>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
     <slot />
   </div>
@@ -31,46 +28,38 @@ export default {
 // Общие классы для всех примеров (не scoped — используются внутри страниц примеров)
 @import "@/styles/scss/my-vars.scss";
 
+@import "@/styles/scss/mixins.scss";
+
 .ex-page {
-  padding: 10px 15px 15px;
+  padding-top: 6px;
 }
 
-.ex-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
-
-  .ex-back {
-    color: #FFF;
-    font-size: 24px;
-    text-decoration: none;
-    margin-left: -6px;
-  }
-
-  .ex-header-icon {
-    font-size: 24px;
-    opacity: 0.5;
-  }
-
-  #app & .ex-title {
-    font-size: 26px;
-    margin: 0;
-  }
-}
-
-.ex-desc {
-  color: rgba(255, 255, 255, 0.5);
+// «← Все примеры» — приглушённая ссылка над заголовком, как «назад» в источниках плеера
+.ex-back {
+  display: inline-block;
+  margin-top: 6px;
+  color: #FFF;
+  opacity: 0.4;
+  text-decoration: none;
   font-size: 15px;
 }
 
+#app .ex-title {
+  margin-top: 0.5rem;
+}
+
+// Пояснение внизу страницы примера
+.ex-desc {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-top: 12px;
+}
+
+// Блок примера — та же «стеклянная» карточка, что .glass-card (ui.scss)
 .ex-card {
-  padding: 16px;
-  margin-bottom: 12px;
-  border-radius: 14px;
-  background-color: $site-glass-bg;
-  border: $site-glass-border;
-  box-shadow: $site-glass-shadow;
+  @include glass-frame;
+  margin-top: 12px;
 }
 
 .ex-buttons {
@@ -92,8 +81,9 @@ export default {
 
   > div {
     padding: 10px 12px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.35);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: $site-glass-border;
   }
 
   small {
@@ -111,9 +101,10 @@ export default {
 
 .ex-mono {
   margin: 10px 0 0;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: $site-glass-border;
   font-size: 14px;
   white-space: pre-wrap;
   word-break: break-all;
@@ -146,9 +137,7 @@ export default {
 }
 
 .ex-icon-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
+  @include icon-button;
   font-size: 20px;
   padding: 4px 6px;
 }

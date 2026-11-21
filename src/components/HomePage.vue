@@ -1,25 +1,35 @@
 <template>
-  <div class="default-page home-page">
-    <h1><span>{{ appName }}</span></h1>
-    <p class="text-secondary">{{ appDescription }}</p>
+  <div class="default-page">
+    <h1 class="page-title">{{ appName }}</h1>
+    <div class="page-lead">{{ appDescription }}</div>
 
-    <div class="home-cards">
-      <router-link v-if="hasExamples" to="/examples" class="home-card">
-        <i class="bi bi-grid-fill"></i>
-        <span>Примеры возможностей</span>
-        <small class="text-secondary">Компас, GPS-трекер, сканер, камера, диктофон, уровень, фоновый режим…</small>
+    <div class="menu-tiles">
+      <router-link v-if="hasExamples" to="/examples" class="menu-tile">
+        <div class="menu-tile-icon"><i class="bi bi-grid"></i></div>
+        <div class="menu-tile-text">
+          <div class="menu-tile-name">Примеры возможностей</div>
+          <div class="menu-tile-desc">Компас, GPS-трекер, сканер, камера, диктофон, уровень, фоновый режим…</div>
+        </div>
       </router-link>
-      <router-link to="/about" class="home-card">
-        <i class="bi bi-info-circle-fill"></i>
-        <span>О приложении</span>
-        <small class="text-secondary">Версия, сборка{{ hasUpdates ? ', обновления' : '' }}</small>
+      <router-link to="/about" class="menu-tile">
+        <div class="menu-tile-icon"><i class="bi bi-info-circle"></i></div>
+        <div class="menu-tile-text">
+          <div class="menu-tile-name">О приложении</div>
+          <div class="menu-tile-desc">Версия, сборка{{ hasUpdates ? ', обновления' : '' }}</div>
+        </div>
       </router-link>
     </div>
 
-    <p class="mt-4 text-secondary small">
-      Это стартовая страница заготовки: замените её своей (src/components/HomePage.vue),
-      пункты меню — в src/router/menu.js, возможности устройства включаются в src/config/features.js.
-    </p>
+    <section class="glass-card">
+      <div class="glass-card-header">
+        <i class="bi bi-lightbulb"></i>
+        <span>С чего начать</span>
+      </div>
+      <div class="glass-card-hint mb-0">
+        Это стартовая страница заготовки: замените её своей (src/components/HomePage.vue).
+        Пункты меню — src/router/menu.js, возможности устройства включаются в src/config/features.js.
+      </div>
+    </section>
   </div>
 </template>
 
@@ -39,40 +49,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@import "@/styles/scss/my-vars.scss";
-
-.home-page {
-  padding: 15px;
-}
-
-.home-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 10px;
-  margin-top: 25px;
-}
-
-.home-card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 20px;
-  border-radius: 14px;
-  color: #FFF;
-  text-decoration: none;
-  background-color: $site-glass-bg;
-  border: $site-glass-border;
-  box-shadow: $site-glass-shadow;
-
-  .bi {
-    font-size: 28px;
-    opacity: 0.5;
-  }
-
-  &:active {
-    background-color: $site-active-element-bg;
-  }
-}
-</style>

@@ -107,6 +107,7 @@ export default {
 @import "@/styles/scss/list.scss";
 @import "@/styles/scss/animations.scss";
 @import "@/styles/scss/attention-block";
+@import "@/styles/scss/ui.scss";
 
 // Скролл приложения живёт НЕ на документе, а внутри #app: скролл документа в
 // standalone-PWA на iOS ломается (страница «замерзает» на высоте одного экрана),

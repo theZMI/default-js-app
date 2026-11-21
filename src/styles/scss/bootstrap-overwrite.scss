@@ -40,8 +40,10 @@
     }
   }
 
-  .form-control {
+  .form-control, .form-select {
     border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 16px; // < 16px — iOS зумит страницу при фокусе на поле
 
     &:focus {
       border-color: rgba(255, 255, 255, 0.1);
