@@ -9,7 +9,7 @@ export async function getDeviceInfo() {
     const base = {
         appVersion: CURRENT_VERSION,
         buildPlatform: PLATFORM,
-        // eslint-disable-next-line no-undef
+         
         buildTime: typeof __APP_BUILD_TIME__ !== 'undefined' ? __APP_BUILD_TIME__ : '',
         online: navigator.onLine,
         language: navigator.language,

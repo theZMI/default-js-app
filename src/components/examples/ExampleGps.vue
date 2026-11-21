@@ -27,7 +27,7 @@
         <div><small>Время трека</small><b>{{ durationText }}</b></div>
       </div>
 
-      <button v-if="pos" class="btn btn-link text-white px-0 mt-2" @click="openOnMap">
+      <button v-if="pos" class="btn btn-link text-fg px-0 mt-2" @click="openOnMap">
         <i class="bi bi-map"></i> Открыть на карте
       </button>
     </div>
@@ -38,7 +38,7 @@
       </div>
       <svg viewBox="0 0 100 100" class="gps-track" preserveAspectRatio="xMidYMid meet">
         <polyline :points="trackPoints" fill="none" stroke="#0066FF" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
-        <circle v-if="lastPoint" :cx="lastPoint[0]" :cy="lastPoint[1]" r="2.5" fill="#FFF" />
+        <circle v-if="lastPoint" :cx="lastPoint[0]" :cy="lastPoint[1]" r="2.5" fill="currentColor" />
       </svg>
     </div>
   </example-layout>
@@ -158,7 +158,7 @@ onBeforeUnmount(() => {
   width: 100%;
   aspect-ratio: 1;
   max-height: 320px;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--app-inset-bg);
   border-radius: 10px;
 }
 </style>

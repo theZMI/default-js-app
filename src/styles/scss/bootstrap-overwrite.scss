@@ -5,25 +5,30 @@
 
 #app {
   .alert-danger {
-    color: #FFF;
+    color: var(--app-fg);
     background-color: $danger;
     border: transparent;
   }
 
   .btn {
     border: 1px solid $site-active-element-border;
-    color: #FFF;
+    color: var(--app-fg);
     text-shadow: 0 1px rgba(0,0,0, 0.15);
 
     &-primary {
     }
 
+    // На цветных кнопках текст белый в любой теме
+    &-primary, &-success, &-danger, &-warning {
+      color: #FFF;
+    }
+
     &-secondary {
-      background-color: #222;
+      background-color: var(--app-btn-secondary-bg);
 
       &:active, &:focus {
-        background-color: #444;
-        color: #FFF;
+        background-color: var(--app-btn-secondary-active-bg);
+        color: var(--app-fg);
       }
     }
 
@@ -41,12 +46,12 @@
   }
 
   .form-control, .form-select {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(var(--app-fg-rgb), 0.1);
     border-radius: 12px;
     font-size: 16px; // < 16px — iOS зумит страницу при фокусе на поле
 
     &:focus {
-      border-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(var(--app-fg-rgb), 0.1);
       box-shadow: none;
     }
   }
@@ -80,6 +85,6 @@
   }
 
   .text-secondary {
-    color: rgba(255,255,255, 0.5) !important;
+    color: rgba(var(--app-fg-rgb), 0.5) !important;
   }
 }

@@ -5,8 +5,8 @@
     <div class="about-text">{{ appDescription }}</div>
 
     <p class="mt-4">
-      <span class="text-secondary">Версия:</span> {{ version }}<br>
-      <span class="text-secondary">Сборка:</span> {{ buildTime }} ({{ platform }})
+      <span class="text-secondary">{{ $t('about.version') }}:</span> {{ version }}<br>
+      <span class="text-secondary">{{ $t('about.build') }}:</span> {{ buildTime }} ({{ platform }})
     </p>
 
     <div v-if="showUpdateCheck" class="mt-4">
@@ -32,7 +32,7 @@ export default {
       version: CURRENT_VERSION,
       platform: PLATFORM,
       // Константа впечатывается DefinePlugin'ом на этапе сборки (см. vue.config.js)
-      // eslint-disable-next-line no-undef
+       
       buildTime: typeof __APP_BUILD_TIME__ !== 'undefined' ? __APP_BUILD_TIME__ : '—',
       showUpdateCheck: FEATURES.appUpdates,
     }
@@ -49,10 +49,10 @@ export default {
   object-fit: contain;
   margin-top: 3rem;
   margin-bottom: 1.5rem;
-  border: 1px solid rgba(255,255,255, 0.1);
+  border: 1px solid rgba(var(--app-fg-rgb), 0.1);
   border-radius: 23px;
-  box-shadow: 0 0 50px rgba(255,255,255, 0.2);
-  background: #000;
+  box-shadow: 0 0 50px rgba(var(--app-fg-rgb), 0.2);
+  background: var(--app-bg);
 }
 
 h3 {

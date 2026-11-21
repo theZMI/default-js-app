@@ -7,7 +7,7 @@
 // cordova-плагина каждый модуль src/native/* дополнительно проверяет в рантайме
 // (плагин мог не установиться, страница открыта в dev-браузере) и в его отсутствие
 // использует веб-фолбэк или честно сообщает «недоступно».
-import {isAndroid, isIos, isWeb} from '@/config/platform';
+import {isAndroid, isIos, isWeb, isNativeBuild} from '@/config/platform';
 
 export const FEATURES = {
     // Геолокация: navigator.geolocation (в Cordova — cordova-plugin-geolocation).
@@ -34,6 +34,45 @@ export const FEATURES = {
     // Датчики движения: наклон (пузырьковый уровень), ускорение, встряхивание —
     // DeviceOrientationEvent/DeviceMotionEvent, без плагинов. iOS спрашивает разрешение по жесту.
     motion: true,
+
+    // Локальные уведомления-напоминания: cordova-plugin-local-notification; в вебе — Notification API
+    // (только пока вкладка открыта)
+    notifications: true,
+
+    // Push-уведомления с сервера (Firebase): плагин cordova-plugin-firebasex НЕ установлен —
+    // нужен google-services.json своего Firebase-проекта. Как подключить — README, пример «Push».
+    push: false,
+
+    // Офлайн-очередь запросов (src/libraries/offlineQueue.js) — без плагинов
+    offlineQueue: true,
+
+    // Отчёты об ошибках JS (src/libraries/errorReporter.js), куда слать — APP.ERROR_REPORTS
+    errorReports: true,
+
+    // Не гасить экран: cordova-plugin-insomnia; в вебе — Screen Wake Lock API
+    wakeLock: true,
+
+    // Фонарик: вспышка через видеопоток камеры (getUserMedia + torch), без плагинов; не iOS
+    torch: !isIos,
+
+    // Кнопки воспроизведения в шторке/на экране блокировки: Media Session API (веб),
+    // в Android-приложении — cordova-plugin-music-controls2
+    mediaSession: true,
+
+    // «Поделиться»: cordova-plugin-x-socialsharing; в вебе — Web Share API или буфер обмена
+    share: true,
+
+    // Карта: Leaflet + OpenStreetMap (настройки — APP.MAP), без плагинов
+    map: true,
+
+    // Вход в аккаунт по коду из письма (src/libraries/auth.js, APP.AUTH)
+    auth: true,
+
+    // Вход по отпечатку/лицу: cordova-plugin-fingerprint-aio (только приложение)
+    biometric: isNativeBuild,
+
+    // NFC-метки и карты: phonegap-nfc (Android); в вебе — Web NFC (Chrome Android)
+    nfc: !isIos,
 
     // Вибрация: navigator.vibrate (Android; iOS не поддерживает)
     vibration: !isIos,

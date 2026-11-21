@@ -121,7 +121,7 @@ onBeforeUnmount(() => {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(var(--app-fg-rgb), 0.15);
   background: #0066FF;
   color: #FFF;
   font-size: 46px;

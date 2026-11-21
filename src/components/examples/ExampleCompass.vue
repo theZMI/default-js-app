@@ -4,13 +4,13 @@
       <div class="compass" :class="{'is-off': !stop}">
         <!-- Циферблат поворачивается против направления устройства: «С» всегда смотрит на север -->
         <svg viewBox="-110 -110 220 220" class="compass-dial" :style="{transform: `rotate(${-smoothHeading}deg)`}">
-          <circle r="104" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+          <circle r="104" fill="none" stroke="rgba(var(--app-fg-rgb), 0.15)" stroke-width="2" />
           <g v-for="t in ticks" :key="t" :transform="`rotate(${t})`">
             <line y1="-104" :y2="t % 90 === 0 ? -88 : (t % 30 === 0 ? -94 : -99)"
-                  :stroke="t === 0 ? '#FF2929' : 'rgba(255,255,255,0.5)'" :stroke-width="t % 30 === 0 ? 2 : 1" />
+                  :stroke="t === 0 ? '#FF2929' : 'rgba(var(--app-fg-rgb), 0.5)'" :stroke-width="t % 30 === 0 ? 2 : 1" />
           </g>
           <text v-for="c in cardinals" :key="c.label" :transform="`rotate(${c.deg}) translate(0,-70) rotate(${-c.deg + smoothHeading})`"
-                text-anchor="middle" dominant-baseline="central" :fill="c.deg === 0 ? '#FF2929' : '#FFF'" font-size="18">{{ c.label }}</text>
+                text-anchor="middle" dominant-baseline="central" :fill="c.deg === 0 ? '#FF2929' : 'currentColor'" font-size="18">{{ c.label }}</text>
         </svg>
         <!-- Неподвижная метка «куда смотрит телефон» -->
         <div class="compass-pointer"></div>

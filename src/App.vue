@@ -6,13 +6,13 @@
   <pull-refresh v-model="pageRefreshing" :disabled="isPullRefreshDisabled" pulling-text="👇" loosing-text="👍" loading-text="" success-text="" pull-distance="140" @refresh="refreshPage" :class="{'is-page-refreshing': pageRefreshing, 'is-page-exception-to-pull-refresher': isPullRefreshDisabled}">
     <div v-if="pageRefreshing">
       <popup-message :visible="true">
-        <my-loader label="Обновляем..."  />
+        <my-loader label="Обновляем..." />
       </popup-message>
     </div>
 
     <main-menu ref="mainMenu" />
 
-    <div class="wrapper">
+    <div class="wrapper" @touchstart.passive="onSwipeStart" @touchend.passive="onSwipeEnd">
       <div class="content" :class="{'stretch-height': isStretchHeightPage}">
         <div v-if="hasAppUpdates" v-show="needAppUpdate">
           <popup-message :visible="true" :close="() => needAppUpdate = false">
@@ -36,11 +36,11 @@
 <script>
 import { delay } from "@/helpers/delay";
 import PullRefresh from "pull-refresh-vue3";
-import NetworkStatus from "@/components/UI/NetworkStatus";
-import MainMenu from "@/components/MainMenu";
-import BottomMainMenu from "@/components/BottomMainMenu";
-import CheckUpdates from "@/components/CheckUpdatesPage";
-import PopupMessage from "@/components/UI/PopupMessage";
+import NetworkStatus from "@/components/UI/NetworkStatus.vue";
+import MainMenu from "@/components/MainMenu.vue";
+import BottomMainMenu from "@/components/BottomMainMenu.vue";
+import CheckUpdates from "@/components/CheckUpdatesPage.vue";
+import PopupMessage from "@/components/UI/PopupMessage.vue";
 import { APP } from "@/config/app";
 import { FEATURES } from "@/config/features";
 import { CURRENT_VERSION } from "@/native/appUpdates";
@@ -63,20 +63,8 @@ export default {
       needAppUpdate: false,
       pageRefreshing: false,
       keepAlivePages,
+      swipeStart: null,
     }
-  },
-  methods: {
-    openMainMenu() {
-      this.$refs.mainMenu.openMenu();
-    },
-    closeMainMenu() {
-      this.$refs.mainMenu.closeMenu();
-    },
-    async refreshPage() {
-      this.pageRefreshing = true;
-      await delay(200);
-      window.location.reload();
-    },
   },
   computed: {
     isStretchHeightPage() {
@@ -93,6 +81,36 @@ export default {
       this.needAppUpdate = this.$refs.checkUpdates.hasUpdates;
     }
   },
+  methods: {
+    openMainMenu() {
+      this.$refs.mainMenu.openMenu();
+    },
+    closeMainMenu() {
+      this.$refs.mainMenu.closeMenu();
+    },
+    // Свайп слева направо по странице — открыть боковое меню (APP.GESTURES)
+    onSwipeStart(e) {
+      const touch = e.touches[0];
+      const zone = window.innerWidth * APP.GESTURES.SWIPE_MENU_START_ZONE;
+      const blocked = e.target.closest?.('[data-no-swipe], input, textarea, select, .leaflet-container');
+      this.swipeStart = APP.GESTURES.SWIPE_TO_OPEN_MENU && e.touches.length === 1 && touch.clientX <= zone && !blocked
+          ? {x: touch.clientX, y: touch.clientY}
+          : null;
+    },
+    onSwipeEnd(e) {
+      if (!this.swipeStart) return;
+      const touch = e.changedTouches[0];
+      const dx = touch.clientX - this.swipeStart.x;
+      const dy = Math.abs(touch.clientY - this.swipeStart.y);
+      this.swipeStart = null;
+      if (dx > 90 && dy < 60) this.openMainMenu();
+    },
+    async refreshPage() {
+      this.pageRefreshing = true;
+      await delay(200);
+      window.location.reload();
+    },
+  },
 }
 </script>
 
@@ -108,6 +126,7 @@ export default {
 @import "@/styles/scss/animations.scss";
 @import "@/styles/scss/attention-block";
 @import "@/styles/scss/ui.scss";
+@import "@/styles/scss/theme.scss";
 
 // Скролл приложения живёт НЕ на документе, а внутри #app: скролл документа в
 // standalone-PWA на iOS ломается (страница «замерзает» на высоте одного экрана),
@@ -126,12 +145,12 @@ html {
     position: fixed;
     right: 0;
     top: env(safe-area-inset-top, 0px); // Отступ под статус-бар iOS в standalone (в браузере env равен нулю)
-    color: #FFF;
+    color: var(--app-fg);
     padding: 5px 9px;
     line-height: 1;
     font-size: 13px;
-    background-color: #000;
-    border: 1px solid #000;
+    background-color: var(--app-bg);
+    border: 1px solid var(--app-glass-border);
     border-width: 0 0 1px 1px;
     border-radius: 0 0 0 8px;
     z-index: 1000;
@@ -159,7 +178,7 @@ html {
   .lb-pull-refresh__head {
     display: flex;
     justify-content: center;
-    color: #FFF;
+    color: var(--app-fg);
     font-size: 1.1rem;
 
     backdrop-filter: $site-glass-blur;
@@ -193,6 +212,13 @@ html {
     }
   }
 
+  // Размер текста из настроек: масштаб содержимого страницы (меню — без изменений).
+  // Включается только при «Крупный/Очень крупный» (класс ставит libraries/settings.js):
+  // при обычном размере CSS zoom не нужен и не должен влиять на вёрстку.
+  &.app-text-scaled body #app .wrapper .content {
+    zoom: var(--app-text-scale, 1);
+  }
+
   body {
     min-width: $site-min-width;
     width: 100%;
@@ -203,7 +229,7 @@ html {
     -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
     margin: 0 auto;
     padding: env(safe-area-inset-top, 0px) 0 0 0;
-    color: #FFF;
+    color: var(--app-fg);
     font-family: 'PT Sans', 'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     background: $site-background;
     font-size: 17px;
@@ -294,7 +320,7 @@ html {
         }
 
         span {
-          border-bottom: 1px solid rgba(255,255,255, 0.33);
+          border-bottom: 1px solid rgba(var(--app-fg-rgb), 0.33);
           padding-bottom: 5px;
         }
       }
@@ -308,7 +334,7 @@ html {
       }
 
       input[readonly] {
-        color: #777;
+        color: rgba(var(--app-fg-rgb), 0.45);
       }
     }
   }

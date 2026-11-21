@@ -12,6 +12,10 @@ exports.GetJsAppProjectDir = (append = '') => path.join(JS_APP_ROOT, append);
 exports.GetCordovaProjectDir = (append = '') => path.join(CORDOVA_ROOT, append);
 
 exports.APK_DEBUG_PATH = 'platforms/android/app/build/outputs/apk/debug/app-debug.apk';
+exports.APK_RELEASE_PATH = 'platforms/android/app/build/outputs/apk/release/app-release.apk';
+exports.AAB_RELEASE_PATH = 'platforms/android/app/build/outputs/bundle/release/app-release.aab';
+
+exports.GetAppVersion = () => JSON.parse(fs.readFileSync(path.join(JS_APP_ROOT, 'package.json'), 'utf-8')).version;
 
 // Понятная ошибка вместо ENOENT посреди сборки
 exports.AssertCordovaProject = () => {

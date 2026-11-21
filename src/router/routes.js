@@ -7,7 +7,10 @@ import {exampleRoutes} from "@/components/examples";
 // браузер докачивает их в простое (а service worker кладёт в кэш для офлайна).
 const ExamplesPage = () => import("@/components/examples/ExamplesPage.vue");
 const AboutPage = () => import("@/components/AboutPage.vue");
-const CheckUpdatesPage = () => import("@/components/CheckUpdatesPage.vue");
+const SettingsPage = () => import("@/components/SettingsPage.vue");
+const GuidePage = () => import("@/components/GuidePage.vue");
+// Страница обновления и так в основном бандле (её встраивают App.vue и «О приложении»)
+import CheckUpdatesPage from "@/components/CheckUpdatesPage.vue";
 const NotFoundPage = () => import("@/components/NotFoundPage.vue");
 
 export const routes = [
@@ -28,6 +31,16 @@ export const routes = [
         name: 'examples',
         component: ExamplesPage,
     }, ...exampleRoutes] : []),
+    {
+        path: '/settings',
+        name: 'settings',
+        component: SettingsPage,
+    },
+    {
+        path: '/guide',
+        name: 'guide',
+        component: GuidePage,
+    },
     {
         path: '/about',
         name: 'about',

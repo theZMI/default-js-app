@@ -1,7 +1,7 @@
 <template>
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasUserMenu" aria-labelledby="offcanvasUserMenuLabel" v-swipe-left="closeMenu">
     <div class="offcanvas-header pt-0 pb-0">
-      <button type="button" class="btn btn-link btn-close-menu text-white" ref="menuCloseButton" data-bs-dismiss="offcanvas" aria-label="Закрыть">
+      <button type="button" class="btn btn-link btn-close-menu text-fg" ref="menuCloseButton" data-bs-dismiss="offcanvas" :aria-label="$t('menu.close')">
         <i class="bi bi-x-lg"></i>
       </button>
     </div>
@@ -9,15 +9,15 @@
       <div class="offcanvas-menu-list">
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuTop" :key="item.link">
-            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
           </li>
         </ul>
       </div>
       <div class="offcanvas-menu-list-bottom" v-if="menuBottom.length">
-        <div class="header text-secondary">Дополнительно:</div>
+        <div class="header text-secondary">{{ $t('menu.extra') }}</div>
         <ul class="list-unstyled" data-bs-dismiss="offcanvas">
           <li v-for="item in menuBottom" :key="item.link">
-            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ item.name }}</span></router-link>
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
           </li>
         </ul>
       </div>
@@ -82,7 +82,7 @@ export default {
     padding-left: 0;
     padding-right: 0;
     font-size: 36px;
-    color: #FFF;
+    color: var(--app-fg);
     margin-left: -3px;
   }
 
@@ -116,7 +116,7 @@ export default {
   }
 
   .menu-item {
-    color: #FFF;
+    color: var(--app-fg);
     padding: 10px 0;
     margin: 10px 0;
     white-space: nowrap;

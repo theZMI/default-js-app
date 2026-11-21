@@ -1,14 +1,14 @@
 <template>
   <div class="fixed-bottom bottom-main-menu-wrapper" v-if="showMenu">
     <div class="bottom-main-menu">
-      <button v-if="addButtonAllMenu" class="bottom-main-menu-item" type="button" aria-label="Всё меню" @click="$emit('openMainMenu')">
+      <button v-if="addButtonAllMenu" class="bottom-main-menu-item" type="button" :aria-label="$t('menu.all')" @click="$emit('openMainMenu')">
         <i class="bi bi-list"></i>
-        <span>Всё меню</span>
+        <span>{{ $t('menu.all') }}</span>
       </button>
-      <router-link v-for="item in menu" :key="item.link" :aria-label="item.shortName || item.name" class="bottom-main-menu-item" :class="{'active': isActive(item)}" :to="item.link" @click="$emit('closeMainMenu')">
+      <router-link v-for="item in menu" :key="item.link" :aria-label="$t(item.shortName || item.name)" class="bottom-main-menu-item" :class="{'active': isActive(item)}" :to="item.link" @click="$emit('closeMainMenu')">
         <i class="bi" :class="item.icon"></i>
         <span>
-          {{ item.shortName || item.name }}
+          {{ $t(item.shortName || item.name) }}
           <span v-if="item.indicator" :class="item.indicatorCssClasses">{{ item.indicator }}</span>
         </span>
       </router-link>
@@ -137,7 +137,7 @@ export default {
     transition: color 0.25s linear;
     text-decoration: none;
     padding: 0;
-    color: #FFF;
+    color: var(--app-fg);
     border-radius: 30px;
     //font-size: 21px;
     line-height: 1;

@@ -10,12 +10,14 @@ import {openDB} from 'idb';
 import {toRaw} from 'vue';
 
 const DB_NAME = 'app-db';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const TABLES = {
     // имя таблицы: имя поля-ключа
     kv: 'key',
     images: 'id',
     files: 'id',
+    // Тайлы карты (пример «Карта»): ключ — URL тайла
+    tiles: 'url',
 };
 
 let dbPromise = null;

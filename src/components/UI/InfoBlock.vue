@@ -13,7 +13,11 @@
 <script>
 export default {
   name: 'info-block',
-  props: ['label', 'icon', 'cssClasses']
+  props: {
+    label: {type: String, default: ''},
+    icon: {type: String, default: ''},
+    cssClasses: {type: String, default: ''},
+  },
 }
 </script>
 

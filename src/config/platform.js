@@ -6,7 +6,7 @@
 // переменной игнорируется — откатываемся на конфиг.
 import Env from '@/env';
 
-const PLATFORM_OVERRIDE = process.env.VUE_APP_PLATFORM;
+const PLATFORM_OVERRIDE = import.meta.env.VUE_APP_PLATFORM;
 const KNOWN_PLATFORMS = ['web', 'android', 'ios'];
 
 export const PLATFORM = KNOWN_PLATFORMS.includes(PLATFORM_OVERRIDE) ? PLATFORM_OVERRIDE : Env.PLATFORM;

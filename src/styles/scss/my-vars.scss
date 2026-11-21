@@ -1,14 +1,15 @@
 @import "bootstrap-vars";
+// Цвета, зависящие от темы, — CSS-переменные из theme.scss
 
 $site-min-width: 360px; // держать в синхроне с SITE_MIN_WIDTH в src/helpers/viewportMinWidth.js
 $site-max-width: 850px;
-$site-background: #000;
+$site-background: var(--app-bg);
 $site-top-menu-offset: 6px;
 $site-bottom-menu-offset: 68px;
 $site-modal-blur: blur(15px); // Дополнительное размытие фона когда открыта модалка
-$site-glass-bg: rgba(255,255,255, 0.09);
-$site-glass-border: 1px solid rgba(255,255,255, 0.05);
-$site-glass-shadow: 0 0 25px rgba(0,0,0, 0.25);
+$site-glass-bg: var(--app-glass-bg);
+$site-glass-border: 1px solid var(--app-glass-border);
+$site-glass-shadow: var(--app-glass-shadow);
 $site-glass-blur: blur(15px);
-$site-active-element-bg: $primary; // rgba(255,255,255, 0.25);
-$site-active-element-border: rgba(255,255,255, 0.1);
+$site-active-element-bg: $primary;
+$site-active-element-border: var(--app-active-border);

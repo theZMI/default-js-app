@@ -1,8 +1,8 @@
-import InfoBlock from "@/components/UI/InfoBlock";
-import MyLoader from '@/components/UI/MyLoader';
-import NetworkStatus from "@/components/UI/NetworkStatus";
-import PopupMessage from "@/components/UI/PopupMessage";
-import SwitcherSizes from "@/components/UI/SwitcherSizes";
+import InfoBlock from "@/components/UI/InfoBlock.vue";
+import MyLoader from '@/components/UI/MyLoader.vue';
+import NetworkStatus from "@/components/UI/NetworkStatus.vue";
+import PopupMessage from "@/components/UI/PopupMessage.vue";
+import SwitcherSizes from "@/components/UI/SwitcherSizes.vue";
 
 export default [
     InfoBlock,

@@ -12,11 +12,11 @@
 
 // Подзаголовок/описание под заголовком — «цитатой» с чертой слева
 .page-lead {
-  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(var(--app-fg-rgb), 0.4);
   padding-left: 14px;
   margin-bottom: 1.5rem;
   font-size: 17px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(var(--app-fg-rgb), 0.4);
   line-height: 1.25;
 }
 
@@ -30,7 +30,7 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 14px;
-    color: #FFF;
+    color: var(--app-fg);
     font-size: 17px;
 
     .bi {
@@ -82,7 +82,7 @@
   }
 
   &-name {
-    color: #FFF;
+    color: var(--app-fg);
     margin-bottom: 2px;
   }
 

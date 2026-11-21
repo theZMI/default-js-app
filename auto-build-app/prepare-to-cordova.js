@@ -34,6 +34,9 @@ function PrepareHtml() {
     if (!data.includes('src="cordova.js"')) {
         data = data.replace('</body>', '<script src="cordova.js"></script></body>');
     }
+    // Vite помечает свои скрипты crossorigin; под file:// у страницы origin "null", и с этим
+    // атрибутом WebView запрашивает их как CORS-ресурсы — убираем, грузим как обычные локальные файлы
+    data = data.replace(/\scrossorigin(="[^"]*")?/g, '');
     // "/x" → "x", но "//cdn.example.com/x" (протокол-относительные ссылки) не трогаем
     data = data.replace(/(href|src)="\/(?!\/)/g, '$1="');
 

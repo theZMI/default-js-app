@@ -57,9 +57,9 @@ const links = [
   gap: 6px;
   padding: 14px 4px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.35);
-  color: #FFF;
+  border: 1px solid rgba(var(--app-fg-rgb), 0.08);
+  background: var(--app-inset-bg);
+  color: var(--app-fg);
   font-size: 14px;
 
   .bi {

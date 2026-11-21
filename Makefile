@@ -20,9 +20,16 @@ install:
 	npm install
 	cd $(CORDOVA_DIR) && npm install
 
-# Dev-сервер с горячей перезагрузкой
+# Dev-сервер с горячей перезагрузкой: http://localhost:8080
 start:
-	npm run serve
+	npm run dev
+
+# Проверки кода: ESLint и автотесты (vitest)
+lint:
+	npm run lint
+
+test:
+	npm test
 
 # Веб-версия — статика в dist/ (hash-роутер, отдельный сервер не нужен)
 build-web:
@@ -35,6 +42,21 @@ build-android:
 	node auto-build-app/copy-to-cordova-project.js
 	node auto-build-app/build-android-app.js
 	node auto-build-app/move-android-app.js
+
+# Release для Google Play / раздачи: подписанные AAB и APK → dist-apps/<version>-release.{aab,apk}.
+# Перед первой сборкой: make keystore и signing/release.json в cordova-проекте (см. README).
+# Не забудьте поднять version в package.json — Google Play примет только бо́льшую версию.
+build-android-release:
+	VUE_APP_PLATFORM=android npm run build
+	node auto-build-app/prepare-to-cordova.js
+	node auto-build-app/copy-to-cordova-project.js
+	node auto-build-app/build-android-release.js
+
+# Ключ подписи release-сборок (один раз на приложение). Спросит пароли и данные владельца.
+# Ключ — в ../<имя>-cordova/signing/ (не в git). ПОТЕРЯТЬ НЕЛЬЗЯ: сделайте резервную копию.
+keystore:
+	mkdir -p $(CORDOVA_DIR)/signing
+	keytool -genkeypair -v -keystore $(CORDOVA_DIR)/signing/release.keystore -alias release -keyalg RSA -keysize 2048 -validity 10000
 
 # Поставить последний собранный APK на подключённый телефон/эмулятор (нужен adb)
 install-android:
@@ -64,4 +86,4 @@ build-app: build-android
 build-app-ios: build-ios
 build-dist: build-web
 
-.PHONY: install start build-web build-android install-android build-ios prepare-ios icons build-app build-app-ios build-dist
+.PHONY: install start lint test build-web build-android build-android-release keystore install-android build-ios prepare-ios icons build-app build-app-ios build-dist

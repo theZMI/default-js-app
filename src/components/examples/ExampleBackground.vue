@@ -45,7 +45,6 @@ const log = ref([]);
 const error = ref('');
 let timer = null;
 let startedAt = 0;
-let hiddenAt = 0;
 
 function addLog(text) {
   log.value.unshift({time: new Date().toLocaleTimeString('ru-RU'), text});
@@ -61,23 +60,27 @@ function toggle() {
   }
   ticks.value = 0;
   startedAt = Date.now();
-  // Тики считаются инкрементом, а не от времени старта, — так видно, если JS «спал»
-  timer = setInterval(() => ticks.value++, 1000);
+  // Тики считаются инкрементом, а не от времени старта, — так видно, если JS «спал».
+  // Провал между тиками > 2.5 с = JS был заморожен (свёрнутое приложение без фонового режима).
+  // События видимости для этого ненадёжны: фоновый режим сам «будит» WebView, и страница
+  // считает себя видимой, хотя приложение свёрнуто.
+  let lastTick = Date.now();
+  timer = setInterval(() => {
+    const now = Date.now();
+    if (now - lastTick > 2500) addLog(`JS был заморожен ${Math.round((now - lastTick) / 1000)} с — таймер их пропустил`);
+    lastTick = now;
+    ticks.value++;
+  }, 1000);
   if (keepAlive.value) enableBackgroundMode(REASON, {title: 'Таймер работает', text: 'Пример фонового режима'});
   running.value = true;
   addLog(keepAlive.value ? 'Старт с фоновым режимом' : 'Старт без фонового режима');
 }
 
 function onVisibility() {
-  if (!running.value) return;
-  if (document.hidden) {
-    hiddenAt = Date.now();
-    addLog(`Свернули на ${ticks.value} с`);
-  } else {
-    const real = Math.round((Date.now() - startedAt) / 1000);
-    const lost = real - ticks.value;
-    addLog(`Вернулись через ${Math.round((Date.now() - hiddenAt) / 1000)} с; таймер: ${ticks.value} с, реально: ${real} с` + (lost > 2 ? ` — потеряно ${lost} с` : ' — ничего не потеряно'));
-  }
+  if (!running.value || document.hidden) return;
+  const real = Math.round((Date.now() - startedAt) / 1000);
+  const lost = real - ticks.value;
+  addLog(`Проверка: таймер ${ticks.value} с, прошло ${real} с` + (lost > 2 ? ` — потеряно ${lost} с` : ' — ничего не потеряно'));
 }
 
 onMounted(() => document.addEventListener('visibilitychange', onVisibility));

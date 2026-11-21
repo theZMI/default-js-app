@@ -1,11 +1,6 @@
+// Формат ответа бэкенда: {is_success, is_error, data}
 export function IsApiResponse(obj) {
-    if (obj && typeof obj === 'object') {
-        return ['is_success', 'is_error', 'data'].reduce(
-            (is, field) => is * (field in obj),
-            true
-        );
-    }
-    return false;
+    return !!obj && typeof obj === 'object' && ['is_success', 'is_error', 'data'].every((field) => field in obj);
 }
 
 export function ToApiResponse(data) {

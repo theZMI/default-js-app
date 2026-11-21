@@ -4,7 +4,7 @@
     {
       "name": "default-js-app",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vue-cli-service", "serve", "--port", "8095"],
+      "runtimeArgs": ["vite", "--port", "8095"],
       "port": 8095
     }
   ]

@@ -7,15 +7,22 @@
       <router-link v-if="hasExamples" to="/examples" class="menu-tile">
         <div class="menu-tile-icon"><i class="bi bi-grid"></i></div>
         <div class="menu-tile-text">
-          <div class="menu-tile-name">Примеры возможностей</div>
-          <div class="menu-tile-desc">Компас, GPS-трекер, сканер, камера, диктофон, уровень, фоновый режим…</div>
+          <div class="menu-tile-name">{{ $t('menu.examples') }}</div>
+          <div class="menu-tile-desc">{{ $t('home.examplesDesc') }}</div>
+        </div>
+      </router-link>
+      <router-link to="/guide" class="menu-tile">
+        <div class="menu-tile-icon"><i class="bi bi-book"></i></div>
+        <div class="menu-tile-text">
+          <div class="menu-tile-name">{{ $t('menu.guide') }}</div>
+          <div class="menu-tile-desc">{{ $t('home.guideDesc') }}</div>
         </div>
       </router-link>
       <router-link to="/about" class="menu-tile">
         <div class="menu-tile-icon"><i class="bi bi-info-circle"></i></div>
         <div class="menu-tile-text">
-          <div class="menu-tile-name">О приложении</div>
-          <div class="menu-tile-desc">Версия, сборка{{ hasUpdates ? ', обновления' : '' }}</div>
+          <div class="menu-tile-name">{{ $t('menu.about') }}</div>
+          <div class="menu-tile-desc">{{ hasUpdates ? $t('home.aboutDescUpdates') : $t('home.aboutDesc') }}</div>
         </div>
       </router-link>
     </div>
@@ -23,12 +30,9 @@
     <section class="glass-card">
       <div class="glass-card-header">
         <i class="bi bi-lightbulb"></i>
-        <span>С чего начать</span>
+        <span>{{ $t('home.startTitle') }}</span>
       </div>
-      <div class="glass-card-hint mb-0">
-        Это стартовая страница заготовки: замените её своей (src/components/HomePage.vue).
-        Пункты меню — src/router/menu.js, возможности устройства включаются в src/config/features.js.
-      </div>
+      <div class="glass-card-hint mb-0">{{ $t('home.startText') }}</div>
     </section>
   </div>
 </template>

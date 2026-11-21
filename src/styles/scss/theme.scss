@@ -1,0 +1,38 @@
+// Темы оформления: все «тематические» цвета — CSS-переменные, переключаются атрибутом
+// <html data-app-theme="dark|light"> (ставит src/libraries/settings.js по настройке пользователя).
+// В SCSS используйте $site-… из my-vars.scss или var(--app-…) напрямую; полупрозрачный цвет
+// текста — rgba(var(--app-fg-rgb), 0.5). Белый текст на синих кнопках/активных пунктах — #FFF
+// (он белый в обеих темах).
+
+:root,
+[data-app-theme="dark"] {
+  --app-bg: #000;
+  --app-fg: #FFF;
+  --app-fg-rgb: 255, 255, 255;
+  --app-glass-bg: rgba(255, 255, 255, 0.09);
+  --app-glass-border: rgba(255, 255, 255, 0.05);
+  --app-glass-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  --app-inset-bg: rgba(0, 0, 0, 0.35);   // «утопленные» блоки внутри карточек
+  --app-active-border: rgba(255, 255, 255, 0.1);
+  --app-btn-secondary-bg: #222;
+  --app-btn-secondary-active-bg: #444;
+  --app-theme-color: #000000;              // <meta name="theme-color"> — цвет системной панели
+}
+
+[data-app-theme="light"] {
+  --app-bg: #EEF0F3;
+  --app-fg: #15171A;
+  --app-fg-rgb: 21, 23, 26;
+  --app-glass-bg: rgba(255, 255, 255, 0.75);
+  --app-glass-border: rgba(0, 0, 0, 0.06);
+  --app-glass-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --app-inset-bg: rgba(0, 0, 0, 0.04);
+  --app-active-border: rgba(0, 0, 0, 0.08);
+  --app-btn-secondary-bg: #E2E5EA;
+  --app-btn-secondary-active-bg: #D2D6DC;
+  --app-theme-color: #EEF0F3;
+}
+
+.text-fg {
+  color: var(--app-fg) !important;
+}

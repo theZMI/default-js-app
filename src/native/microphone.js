@@ -37,7 +37,7 @@ async function openStream() {
     try {
         return await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true}});
     } catch (e) {
-        throw new Error(micErrorMessage(e));
+        throw new Error(micErrorMessage(e), {cause: e});
     }
 }
 

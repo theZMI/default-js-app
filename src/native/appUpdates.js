@@ -15,7 +15,7 @@ import {FEATURES} from '@/config/features';
 import {downloadFile, openFile, MIME} from '@/native/files';
 import {openExternal} from '@/native/browser';
 
-// eslint-disable-next-line no-undef
+ 
 export const CURRENT_VERSION = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '0.0.0';
 
 export function isAppUpdatesAvailable() {
@@ -35,7 +35,7 @@ function assertDownloadUrl() {
     if (!url || url.includes('CHANGE_ME')) {
         throw new Error('Не настроена ссылка на скачивание обновления (APP_DOWNLOAD_URL в src/envs/*.js).');
     }
-    if (!/^https:/i.test(url) && process.env.NODE_ENV === 'production' && !/localhost|127\.0\.0\.1|\.local|\.test/.test(url)) {
+    if (!/^https:/i.test(url) && import.meta.env.PROD && !/localhost|127\.0\.0\.1|\.local|\.test/.test(url)) {
         // APK по http можно подменить в пути (публичный Wi-Fi) — и пользователь установит чужое приложение
         throw new Error('Ссылка на скачивание обновления должна быть https.');
     }

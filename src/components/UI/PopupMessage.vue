@@ -16,10 +16,11 @@
 <script>
 export default {
   name: 'popup-message',
-  props: [
-      'visible',
-      'close'
-  ],
+  props: {
+    visible: {type: Boolean, default: false},
+    // Функция закрытия: есть — показываем крестик
+    close: {type: Function, default: null},
+  },
 }
 </script>
 

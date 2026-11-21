@@ -2,7 +2,7 @@
 // и keep-alive страниц (App.vue). Маршруты — в router/routes.js.
 //
 //   link          — путь маршрута (пункт подсвечен и на вложенных: /examples/compass)
-//   name          — подпись в боковом меню; shortName — в нижнем (если отличается)
+//   name          — ключ перевода подписи (src/i18n), shortName — для нижнего меню (если отличается)
 //   icon          — иконка bootstrap-icons (имя целиком, см. vue.config.js)
 //   componentName — name компонента страницы (нужен для keepAlive)
 //   keepAlive     — не пересоздавать страницу при уходе с неё (плеер, карта, формы)
@@ -14,7 +14,7 @@ import {FEATURES} from '@/config/features';
 const MENU = [
     {
         link: '/',
-        name: 'Главная',
+        name: 'menu.home',
         icon: 'bi-house-door-fill',
         componentName: 'HomePage',
         keepAlive: true,
@@ -23,8 +23,8 @@ const MENU = [
     },
     {
         link: '/examples',
-        name: 'Примеры возможностей',
-        shortName: 'Примеры',
+        name: 'menu.examples',
+        shortName: 'menu.examplesShort',
         icon: 'bi-grid-fill',
         componentName: 'ExamplesPage',
         bottom: true,
@@ -32,8 +32,24 @@ const MENU = [
         feature: 'examples',
     },
     {
+        link: '/settings',
+        name: 'menu.settings',
+        icon: 'bi-gear-fill',
+        componentName: 'SettingsPage',
+        bottom: true,
+        section: 'main',
+    },
+    {
+        link: '/guide',
+        name: 'menu.guide',
+        icon: 'bi-book-fill',
+        componentName: 'GuidePage',
+        bottom: false,
+        section: 'extra',
+    },
+    {
         link: '/about',
-        name: 'О приложении',
+        name: 'menu.about',
         icon: 'bi-info-circle-fill',
         componentName: 'AboutPage',
         bottom: false,

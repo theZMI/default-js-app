@@ -80,8 +80,8 @@ onBeforeUnmount(stopAll);
   aspect-ratio: 1;
   margin: 10px auto 0;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.4));
+  border: 2px solid rgba(var(--app-fg-rgb), 0.2);
+  background: radial-gradient(circle, rgba(var(--app-fg-rgb), 0.06), rgba(0, 0, 0, 0.4));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,7 +96,7 @@ onBeforeUnmount(stopAll);
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 1px dashed rgba(255, 255, 255, 0.35);
+  border: 1px dashed rgba(var(--app-fg-rgb), 0.35);
 }
 
 .level-bubble {
