@@ -4,9 +4,11 @@
     <h3>{{ appName }}</h3>
     <div class="about-text">{{ appDescription }}</div>
 
+    <!-- Только версия: в приложениях из заготовки она поднимается сама при каждой сборке APK/iOS и выкладке
+         (их scripts/bump-version.mjs) и однозначно определяет сборку. Время сборки — только в отчётах об ошибках
+         (native/device.js) -->
     <p class="mt-4">
-      <span class="text-secondary">{{ $t('about.version') }}:</span> {{ version }}<br>
-      <span class="text-secondary">{{ $t('about.build') }}:</span> {{ buildTime }} ({{ platform }})
+      <span class="text-secondary">{{ $t('about.version') }}:</span> {{ version }}
     </p>
 
     <div v-if="showUpdateCheck" class="mt-4">
@@ -18,7 +20,6 @@
 <script>
 import {APP} from '@/config/app';
 import {FEATURES} from '@/config/features';
-import {PLATFORM} from '@/config/platform';
 import {CURRENT_VERSION} from '@/native/appUpdates';
 import CheckUpdatesPage from '@/components/CheckUpdatesPage.vue';
 
@@ -30,10 +31,6 @@ export default {
       appName: APP.NAME,
       appDescription: APP.DESCRIPTION,
       version: CURRENT_VERSION,
-      platform: PLATFORM,
-      // Константа впечатывается DefinePlugin'ом на этапе сборки (см. vue.config.js)
-       
-      buildTime: typeof __APP_BUILD_TIME__ !== 'undefined' ? __APP_BUILD_TIME__ : '—',
       showUpdateCheck: FEATURES.appUpdates,
     }
   },

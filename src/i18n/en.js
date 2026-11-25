@@ -38,7 +38,6 @@ export default {
     },
     about: {
         version: 'Version',
-        build: 'Build',
     },
     notFound: {
         text: 'We could not find this page',

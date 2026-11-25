@@ -38,7 +38,6 @@ export default {
     },
     about: {
         version: 'Версия',
-        build: 'Сборка',
     },
     notFound: {
         text: 'Мы не смогли найти нужный раздел',
