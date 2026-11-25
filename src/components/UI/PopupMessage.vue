@@ -43,7 +43,8 @@ export default {
   }
 
   .modal-dialog {
-    height: 100vh;
+    // --app-vh-fix — поправка под CSS zoom на экранах уже 360 px (helpers/viewportMinWidth.js)
+    height: calc(100vh * var(--app-vh-fix, 1));
     display: flex;
     overflow: scroll;
     align-items: center;

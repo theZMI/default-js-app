@@ -19,7 +19,6 @@
     "leaflet": "^1.9.4",
     "pull-refresh-vue3": "^0.3.1",
     "semver": "^7.6.3",
-    "viewport-extra": "^3.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.4.3",
     "vuex": "^4.1.0"

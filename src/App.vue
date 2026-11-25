@@ -246,8 +246,9 @@ html {
       // -webkit-overflow-scrolling: touch тут НЕ ставить: легаси-свойство с известным
       // багом «замерзания» скролла после перезагрузки страницы на iOS, а инерционный
       // скролл на современных iOS и так включён по умолчанию.
-      height: 100vh;
-      height: 100dvh;
+      // --app-vh-fix — поправка высоты под CSS zoom на экранах уже 360 px (helpers/viewportMinWidth.js)
+      height: calc(100vh * var(--app-vh-fix, 1));
+      height: calc(100dvh * var(--app-vh-fix, 1));
       overflow-y: auto;
       width: 100%;
       // Когда pull-refresh отключён (:disabled на компоненте), он больше не
@@ -267,8 +268,8 @@ html {
       }
 
       .wrapper {
-        min-height: 100vh;
-        min-height: 100dvh;
+        min-height: calc(100vh * var(--app-vh-fix, 1));
+        min-height: calc(100dvh * var(--app-vh-fix, 1));
         width: 100%;
         max-width: $site-max-width;
         margin: 0 auto;
@@ -301,8 +302,8 @@ html {
       .default-page {
         margin: 0 auto;
         max-width: $site-max-width;
-        min-height: calc(100vh - $site-top-menu-offset - $site-bottom-menu-offset - 30px); // 30px = padding сверху и снизу
-        min-height: calc(100dvh - $site-top-menu-offset - $site-bottom-menu-offset - 30px);
+        min-height: calc(100vh * var(--app-vh-fix, 1) - $site-top-menu-offset - $site-bottom-menu-offset - 30px); // 30px = padding сверху и снизу
+        min-height: calc(100dvh * var(--app-vh-fix, 1) - $site-top-menu-offset - $site-bottom-menu-offset - 30px);
 
         &-center {
           min-height: unset !important;

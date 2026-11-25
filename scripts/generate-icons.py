@@ -94,8 +94,9 @@ def main():
     print('Cordova (из www/ приложения):')
     for name, size in (('ldpi', 36), ('mdpi', 48), ('hdpi', 72), ('xhdpi', 96), ('xxhdpi', 144), ('xxxhdpi', 192)):
         out(os.path.join(pub, f'img/cordova-icon/android/drawable-{name}-icon.png'), resized(src, size))
-    # Сплэш Android 12+: иконка в круге 2/3 от 288dp — даём запас прозрачными полями
-    out(os.path.join(pub, 'img/cordova-screen/android/logo.png'), on_background(src, 432, 0.6, (0, 0, 0, 0)))
+    # Сплэш Android 12+: система обрезает иконку кругом диаметром 2/3 картинки. Квадрат иконки
+    # должен целиком влезть в этот круг (диагональ ≤ диаметра) — иначе срезаются углы: 0.45
+    out(os.path.join(pub, 'img/cordova-screen/android/logo.png'), on_background(src, 432, 0.45, (0, 0, 0, 0)))
     out(os.path.join(ROOT, 'src/assets/images/logo.png'), resized(src, 256))
 
     if os.path.isdir(CORDOVA):

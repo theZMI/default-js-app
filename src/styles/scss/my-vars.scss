@@ -1,7 +1,7 @@
 @import "bootstrap-vars";
 // Цвета, зависящие от темы, — CSS-переменные из theme.scss
 
-$site-min-width: 360px; // держать в синхроне с SITE_MIN_WIDTH в src/helpers/viewportMinWidth.js
+$site-min-width: 360px; // держать в синхроне с SITE_MIN_WIDTH в src/helpers/viewportMinWidth.js (уже — CSS zoom)
 $site-max-width: 850px;
 $site-background: var(--app-bg);
 $site-top-menu-offset: 6px;
