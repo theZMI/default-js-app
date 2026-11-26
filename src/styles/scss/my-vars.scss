@@ -6,6 +6,9 @@ $site-max-width: 850px;
 $site-background: var(--app-bg);
 $site-top-menu-offset: 6px;
 $site-bottom-menu-offset: 68px;
+// Без нижнего меню (APP.MENU_STYLE = 'burger'): сверху место под кнопку «☰», снизу обычный отступ
+$site-top-burger-offset: 64px;
+$site-bottom-burger-offset: 16px;
 $site-modal-blur: blur(15px); // Дополнительное размытие фона когда открыта модалка
 $site-glass-bg: var(--app-glass-bg);
 $site-glass-border: 1px solid var(--app-glass-border);

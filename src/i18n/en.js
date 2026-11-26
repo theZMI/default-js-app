@@ -1,4 +1,9 @@
+// Словарь оболочки (en). Ключи — те же, что в ru.js (проверяет tests/i18n.test.js).
 export default {
+    app: {
+        name: 'Default JS App',
+        description: 'A JS app template (Vue 3 + Cordova)',
+    },
     menu: {
         home: 'Home',
         examples: 'Feature examples',
@@ -9,12 +14,14 @@ export default {
         all: 'Menu',
         close: 'Close',
         extra: 'More:',
+        install: 'Install app',
+        installIos: 'To install the app: Share → Add to Home Screen',
     },
     home: {
         examplesDesc: 'Compass, GPS, scanner, camera, recorder, notifications, map, NFC…',
         guideDesc: 'What the template can do, gestures, how to build the app',
-        aboutDesc: 'Version, build',
-        aboutDescUpdates: 'Version, build, updates',
+        aboutDesc: 'Version',
+        aboutDescUpdates: 'Version, updates',
         startTitle: 'Getting started',
         startText: 'This is the template start page: replace it with your own (src/components/HomePage.vue). Menu items live in src/router/menu.js, device features are switched in src/config/features.js.',
     },
@@ -30,11 +37,17 @@ export default {
         textLarge: 'Large',
         textXLarge: 'Extra large',
         behavior: 'Behaviour',
+        sound: 'Sound',
         haptics: 'Haptic feedback',
-        hapticsHint: 'Short vibration in menus and examples (Android only).',
         language: 'Language',
-        languageHint: 'Menus and main pages are translated; the Examples section is in Russian.',
         reset: 'Reset settings',
+        resetProgress: 'Reset progress',
+        confirmTitle: 'Reset progress?',
+        confirmText: 'Your saved progress will be lost. This cannot be undone.',
+        confirmYes: 'Reset',
+        confirmNo: 'Cancel',
+        progressReset: 'Progress reset',
+        settingsReset: 'Settings reset',
     },
     about: {
         version: 'Version',
@@ -44,6 +57,6 @@ export default {
         home: 'Go home',
     },
     common: {
-        refreshing: 'Refreshing...',
+        refreshing: 'Updating...',
     },
 };

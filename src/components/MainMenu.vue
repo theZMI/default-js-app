@@ -11,7 +11,16 @@
           <li v-for="item in menuTop" :key="item.link">
             <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
           </li>
+          <!-- Установка сайта как приложения (PWA): системное окно — по нажатию; на iPhone — подсказка -->
+          <li v-if="pwa.canPrompt">
+            <button type="button" class="menu-item menu-install" @click="install">
+              <i class="bi bi-download" aria-hidden="true"></i><span>{{ $t('menu.install') }}</span>
+            </button>
+          </li>
         </ul>
+        <p v-if="pwa.iosHint" class="menu-install-hint">
+          <i class="bi bi-box-arrow-up" aria-hidden="true"></i> {{ $t('menu.installIos') }}
+        </p>
       </div>
       <div class="offcanvas-menu-list-bottom" v-if="menuBottom.length">
         <div class="header text-secondary">{{ $t('menu.extra') }}</div>
@@ -23,7 +32,13 @@
       </div>
     </div>
   </div>
-  <!-- Невидимая кнопка-триггер: меню открывается из нижнего меню («Всё меню») через openMenu() -->
+  <!-- APP.MENU_STYLE = 'burger': кнопка «☰» в левом верхнем углу открывает боковое меню
+       (и свайпом слева — через openMenu()) -->
+  <button v-if="isBurger" class="menu-burger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUserMenu"
+          aria-controls="offcanvasUserMenu" :aria-label="$t('menu.all')">
+    <i class="bi bi-list"></i>
+  </button>
+  <!-- Невидимая кнопка-триггер: меню открывается из нижнего меню («Всё меню»), «☰» и свайпом через openMenu() -->
   <div id="header" v-show="false">
     <div class="header-content">
       <nav class="navbar navbar-dark bg-black">
@@ -37,8 +52,16 @@
 
 <script>
 import {mainMenuItems, extraMenuItems} from '@/router/menu';
+import {APP} from '@/config/app';
+import {pwaInstall, promptInstall} from '@/native/pwaInstall';
 
 export default {
+  data() {
+    return {
+      pwa: pwaInstall,
+      isBurger: APP.MENU_STYLE === 'burger',
+    };
+  },
   computed: {
     menuTop() {
       return mainMenuItems;
@@ -57,6 +80,9 @@ export default {
     },
     closeMenu() {
       this.$refs.menuCloseButton.click();
+    },
+    install() {
+      promptInstall();
     },
   },
 }
@@ -95,6 +121,29 @@ export default {
   }
 }
 
+// Кнопка «☰» (APP.MENU_STYLE = 'burger') — стеклянный круг в левом верхнем углу, как в magic-ball
+.menu-burger {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 8px);
+  left: 10px;
+  z-index: 1000; // ниже открытого меню (offcanvas — 1045)
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: $site-glass-border;
+  border-radius: 50%;
+  background: $site-glass-bg;
+  backdrop-filter: $site-glass-blur;
+  -webkit-backdrop-filter: $site-glass-blur;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--app-fg);
+  -webkit-tap-highlight-color: transparent;
+}
+
 .offcanvas {
   backdrop-filter: $site-glass-blur;
   background-color: $site-glass-bg;
@@ -112,7 +161,7 @@ export default {
   }
 
   &-menu-list-bottom {
-    margin-bottom: $site-bottom-menu-offset; // Смещение чтобы bottom-menu приклеенное к низу приложение не закрывало это меню
+    margin-bottom: var(--app-bottom-offset, #{$site-bottom-menu-offset}); // нижнее меню (если есть) не закрывает этот блок
   }
 
   .menu-item {
@@ -128,6 +177,27 @@ export default {
     &.active {
       color: $primary;
     }
+  }
+
+  // Кнопка установки — как пункт меню, со значком
+  .menu-install {
+    border: 0;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .bi {
+      font-size: 18px;
+      color: $primary;
+    }
+  }
+
+  .menu-install-hint {
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: rgba(var(--app-fg-rgb), 0.6);
   }
 
   .header {

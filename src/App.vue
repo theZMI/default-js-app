@@ -6,7 +6,7 @@
   <pull-refresh v-model="pageRefreshing" :disabled="isPullRefreshDisabled" pulling-text="👇" loosing-text="👍" loading-text="" success-text="" pull-distance="140" @refresh="refreshPage" :class="{'is-page-refreshing': pageRefreshing, 'is-page-exception-to-pull-refresher': isPullRefreshDisabled}">
     <div v-if="pageRefreshing">
       <popup-message :visible="true">
-        <my-loader label="Обновляем..." />
+        <my-loader :label="$t('common.refreshing')" />
       </popup-message>
     </div>
 
@@ -30,7 +30,7 @@
     </div>
   </pull-refresh>
 
-  <bottom-main-menu @openMainMenu="openMainMenu" @closeMainMenu="closeMainMenu" />
+  <bottom-main-menu v-if="hasBottomMenu" @openMainMenu="openMainMenu" @closeMainMenu="closeMainMenu" />
 </template>
 
 <script>
@@ -42,6 +42,7 @@ import BottomMainMenu from "@/components/BottomMainMenu.vue";
 import CheckUpdates from "@/components/CheckUpdatesPage.vue";
 import PopupMessage from "@/components/UI/PopupMessage.vue";
 import { APP } from "@/config/app";
+import { settings } from "@/libraries/settings";
 import { FEATURES } from "@/config/features";
 import { CURRENT_VERSION } from "@/native/appUpdates";
 import { keepAlivePages } from "@/router/menu";
@@ -63,6 +64,8 @@ export default {
       needAppUpdate: false,
       pageRefreshing: false,
       keepAlivePages,
+      hasBottomMenu: APP.MENU_STYLE !== 'burger',
+      settings,
       swipeStart: null,
     }
   },
@@ -72,6 +75,15 @@ export default {
     },
     isPullRefreshDisabled() {
       return !APP.PULL_TO_REFRESH || APP.PULL_TO_REFRESH_DISABLED_PAGES.includes(this.$route.path);
+    },
+  },
+  watch: {
+    // Заголовок вкладки браузера — на языке из настроек
+    'settings.lang': {
+      handler() {
+        document.title = this.$t('app.name');
+      },
+      immediate: true,
     },
   },
   async mounted() {
@@ -127,6 +139,17 @@ export default {
 @import "@/styles/scss/attention-block";
 @import "@/styles/scss/ui.scss";
 @import "@/styles/scss/theme.scss";
+
+// Отступы страницы под меню (APP.MENU_STYLE, класс ставит main.js)
+html {
+  --app-top-offset: #{$site-top-menu-offset};
+  --app-bottom-offset: #{$site-bottom-menu-offset};
+
+  &.app-menu-burger {
+    --app-top-offset: #{$site-top-burger-offset};
+    --app-bottom-offset: calc(#{$site-bottom-burger-offset} + env(safe-area-inset-bottom, 0px));
+  }
+}
 
 // Скролл приложения живёт НЕ на документе, а внутри #app: скролл документа в
 // standalone-PWA на iOS ломается (страница «замерзает» на высоте одного экрана),
@@ -274,13 +297,13 @@ html {
         max-width: $site-max-width;
         margin: 0 auto;
         display: flex;
-        // Сверху — ещё и отступ под статус-бар в standalone на iOS (в браузере
-        // env равен нулю). Снизу env не добавляем: меню сознательно прижато к
-        // низу, как в браузере, и 73px хватает, чтобы контент из-под него вышел.
+        // Отступы под меню — CSS-переменные (см. ниже, html): с нижним меню — снизу
+        // его высота; с «☰» (APP.MENU_STYLE = 'burger') — сверху место под кнопку,
+        // снизу ещё и «полоска» iPhone. Отступ под статус-бар в standalone на iOS даёт padding body.
         padding:
-            calc(#{$site-top-menu-offset})
+            var(--app-top-offset)
             6px
-            $site-bottom-menu-offset
+            var(--app-bottom-offset)
             6px;
 
         .content {
@@ -302,8 +325,8 @@ html {
       .default-page {
         margin: 0 auto;
         max-width: $site-max-width;
-        min-height: calc(100vh * var(--app-vh-fix, 1) - $site-top-menu-offset - $site-bottom-menu-offset - 30px); // 30px = padding сверху и снизу
-        min-height: calc(100dvh * var(--app-vh-fix, 1) - $site-top-menu-offset - $site-bottom-menu-offset - 30px);
+        min-height: calc(100vh * var(--app-vh-fix, 1) - var(--app-top-offset) - var(--app-bottom-offset) - 30px); // 30px = padding сверху и снизу
+        min-height: calc(100dvh * var(--app-vh-fix, 1) - var(--app-top-offset) - var(--app-bottom-offset) - 30px);
 
         &-center {
           min-height: unset !important;

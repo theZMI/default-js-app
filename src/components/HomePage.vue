@@ -1,7 +1,7 @@
 <template>
   <div class="default-page">
-    <h1 class="page-title">{{ appName }}</h1>
-    <div class="page-lead">{{ appDescription }}</div>
+    <h1 class="page-title">{{ $t('app.name') }}</h1>
+    <div class="page-lead">{{ $t('app.description') }}</div>
 
     <div class="menu-tiles">
       <router-link v-if="hasExamples" to="/examples" class="menu-tile">
@@ -38,15 +38,12 @@
 </template>
 
 <script>
-import {APP} from '@/config/app';
 import {FEATURES} from '@/config/features';
 
 export default {
   name: 'HomePage',
   data() {
     return {
-      appName: APP.NAME,
-      appDescription: APP.DESCRIPTION,
       hasExamples: FEATURES.examples,
       hasUpdates: FEATURES.appUpdates,
     }

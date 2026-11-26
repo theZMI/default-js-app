@@ -48,7 +48,7 @@ export default {
     display: flex;
     overflow: scroll;
     align-items: center;
-    padding-bottom: $site-bottom-menu-offset;
+    padding-bottom: var(--app-bottom-offset, #{$site-bottom-menu-offset});
   }
 
 

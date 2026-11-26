@@ -56,6 +56,27 @@ function writeBootstrapIconsGlyphs(production) {
     }
 }
 
+// Имя кэша service worker'а — «<name>-<version>» из package.json: public/service-worker.js
+// копируется в dist как есть, поэтому метку __APP_CACHE_NAME__ заменяем уже в готовом файле.
+// Свой префикс у каждого приложения (несколько PWA на одном домене не мешают друг другу),
+// новая версия — новый кэш (поднимать CACHE_VERSION руками больше не нужно).
+function swCacheName() {
+    let outDir = 'dist';
+    return {
+        name: 'sw-cache-name',
+        apply: 'build',
+        configResolved(config) {
+            outDir = config.build.outDir;
+        },
+        closeBundle() {
+            const file = path.resolve(ROOT, outDir, 'service-worker.js');
+            if (!fs.existsSync(file)) return;
+            const name = `${pkg.name}-${pkg.version}`.replace(/[^a-zA-Z0-9._-]/g, '-');
+            fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(/__APP_CACHE_NAME__/g, name));
+        },
+    };
+}
+
 export default defineConfig(({command}) => {
     ensureEnvConfigs();
     writeBootstrapIconsGlyphs(command === 'build');
@@ -70,7 +91,7 @@ export default defineConfig(({command}) => {
         // (VUE_APP_PLATFORM ставит Makefile, VUE_APP_ENV — для APK на локальный бэкенд)
         envPrefix: ['VITE_', 'VUE_APP_'],
 
-        plugins: [vue()],
+        plugins: [vue(), swCacheName()],
 
         define: {
             __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',

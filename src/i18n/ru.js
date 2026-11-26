@@ -1,4 +1,9 @@
+// Основной словарь оболочки: остальные языки повторяют его ключи (tests/i18n.test.js).
 export default {
+    app: {
+        name: 'Default JS App',
+        description: 'Заготовка js-приложения (Vue 3 + Cordova)',
+    },
     menu: {
         home: 'Главная',
         examples: 'Примеры возможностей',
@@ -9,12 +14,14 @@ export default {
         all: 'Всё меню',
         close: 'Закрыть',
         extra: 'Дополнительно:',
+        install: 'Установить приложение',
+        installIos: 'Чтобы установить приложение: «Поделиться» → «На экран „Домой“»',
     },
     home: {
         examplesDesc: 'Компас, GPS, сканер, камера, диктофон, уведомления, карта, NFC…',
         guideDesc: 'Что умеет заготовка, жесты, как собрать приложение',
-        aboutDesc: 'Версия, сборка',
-        aboutDescUpdates: 'Версия, сборка, обновления',
+        aboutDesc: 'Версия',
+        aboutDescUpdates: 'Версия, обновления',
         startTitle: 'С чего начать',
         startText: 'Это стартовая страница заготовки: замените её своей (src/components/HomePage.vue). Пункты меню — src/router/menu.js, возможности устройства включаются в src/config/features.js.',
     },
@@ -30,11 +37,17 @@ export default {
         textLarge: 'Крупный',
         textXLarge: 'Очень крупный',
         behavior: 'Поведение',
-        haptics: 'Вибро-отклик на нажатия',
-        hapticsHint: 'Короткая вибрация в меню и примерах (только Android).',
+        sound: 'Звук',
+        haptics: 'Вибро-отклик',
         language: 'Язык',
-        languageHint: 'Переведены меню и основные страницы; раздел «Примеры» — на русском.',
         reset: 'Сбросить настройки',
+        resetProgress: 'Сбросить прогресс',
+        confirmTitle: 'Сбросить прогресс?',
+        confirmText: 'Сохранённый прогресс пропадёт. Отменить это нельзя.',
+        confirmYes: 'Сбросить',
+        confirmNo: 'Отмена',
+        progressReset: 'Прогресс сброшен',
+        settingsReset: 'Настройки сброшены',
     },
     about: {
         version: 'Версия',

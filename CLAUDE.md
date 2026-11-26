@@ -31,7 +31,14 @@
   360 px обрезался справа (проверено на эмуляторе: `adb shell wm size 720x1440` + `wm density 360`, потом `reset`).
   Под zoom в Chrome `100vh`/`100dvh`/`vw` тоже уменьшаются — поправка `--app-vh-fix` меряется зондом; новые высоты
   и размеры в `vh`/`vw` умножать на `var(--app-vh-fix, 1)` (как в `App.vue`). Горизонтальной прокрутки быть не должно.
-- Версия приложения — `version` в `package.json` (имя APK, самообновление).
+- Версия приложения — `version` в `package.json` (имя APK, самообновление, имя кэша SW). Поднимается сама
+  (`scripts/bump-version.mjs`) в `make build-android`, `build-android-release`, `build-ios`, `deploy`.
+- Оболочка — единый вид для всех приложений из заготовки (как в magic-ball, bottle, movie-advisor, gift):
+  «Настройки» без иконок в заголовках и без подсказок, крупный переключатель `.toggle-row`, серая стеклянная
+  кнопка сброса; блоки — флагами `APP.SETTINGS`. Меню — `APP.MENU_STYLE` (`'bottom'` | `'burger'`), отступы
+  страницы под меню — CSS-переменные `--app-top-offset` / `--app-bottom-offset` (не SCSS-константы).
+- Тексты оболочки — на 11 языках (`src/i18n`); новый ключ — во все словари, иначе упадёт `tests/i18n.test.js`.
+  Имя и описание приложения в интерфейсе — `app.name` / `app.description` из словарей.
 
 ## Проверка
 

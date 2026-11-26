@@ -35,8 +35,10 @@ test:
 build-web:
 	VUE_APP_PLATFORM=$(PLATFORM) npm run build
 
-# Android-приложение (debug APK) → dist-apps/<version из package.json>.apk
+# Android-приложение (debug APK) → dist-apps/<version из package.json>.apk.
+# Каждая сборка APK/iOS и выкладка веба поднимает версию (scripts/bump-version.mjs)
 build-android:
+	node scripts/bump-version.mjs
 	VUE_APP_PLATFORM=$(PLATFORM) npm run build
 	node auto-build-app/prepare-to-cordova.js
 	node auto-build-app/copy-to-cordova-project.js
@@ -45,8 +47,9 @@ build-android:
 
 # Release для Google Play / раздачи: подписанные AAB и APK → dist-apps/<version>-release.{aab,apk}.
 # Перед первой сборкой: make keystore и signing/release.json в cordova-проекте (см. README).
-# Не забудьте поднять version в package.json — Google Play примет только бо́льшую версию.
+# Версия поднимается сама (scripts/bump-version.mjs) — Google Play примет только бо́льшую.
 build-android-release:
+	node scripts/bump-version.mjs
 	VUE_APP_PLATFORM=android npm run build
 	node auto-build-app/prepare-to-cordova.js
 	node auto-build-app/copy-to-cordova-project.js
@@ -65,6 +68,7 @@ install-android:
 # iOS-приложение. Требует установленного Xcode (xcode-select -p -> Xcode.app);
 # артефакт — в $(CORDOVA_DIR)/platforms/ios/build (или собрать из .xcworkspace)
 build-ios:
+	node scripts/bump-version.mjs
 	VUE_APP_PLATFORM=$(PLATFORM) npm run build
 	node auto-build-app/prepare-to-cordova.js
 	node auto-build-app/copy-to-cordova-project.js
@@ -77,6 +81,16 @@ prepare-ios:
 	node auto-build-app/copy-to-cordova-project.js
 	cd $(CORDOVA_DIR) && cordova prepare ios
 
+# Выкладка веб-версии: новая версия, сборка, заливка общим скриптом хостинга
+# (../hosting/deploy_static_apps.py, доступ к FTP — там же). DEPLOY_KEY — имя приложения
+# в этом скрипте (словарь APPS), например: DEPLOY_KEY := magic-ball
+DEPLOY_KEY ?=
+deploy:
+	@test -n "$(DEPLOY_KEY)" || (echo "Задайте DEPLOY_KEY в Makefile — имя приложения в ../hosting/deploy_static_apps.py" && exit 1)
+	node scripts/bump-version.mjs
+	$(MAKE) build-web
+	python3 ../hosting/deploy_static_apps.py $(DEPLOY_KEY)
+
 # Все иконки (веб, PWA, Android, iOS) из resources/icon.png — см. scripts/generate-icons.py
 icons:
 	python3 scripts/generate-icons.py
@@ -86,4 +100,4 @@ build-app: build-android
 build-app-ios: build-ios
 build-dist: build-web
 
-.PHONY: install start lint test build-web build-android build-android-release keystore install-android build-ios prepare-ios icons build-app build-app-ios build-dist
+.PHONY: install start lint test deploy build-web build-android build-android-release keystore install-android build-ios prepare-ios icons build-app build-app-ios build-dist

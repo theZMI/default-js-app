@@ -8,8 +8,10 @@ import { setupViewportMinWidth } from '@/helpers/viewportMinWidth'
 import { initSettings } from '@/libraries/settings'
 import i18n from '@/i18n'
 import { FEATURES } from '@/config/features'
+import { APP } from '@/config/app'
 import { initBackButton } from '@/native/backButton'
 import { initOpenLinks } from '@/native/openLinks'
+import { initPwaInstall } from '@/native/pwaInstall'
 import { requestGeoPermissionOnStartup } from '@/native/geolocation'
 import { initErrorReporter } from '@/libraries/errorReporter'
 import { apiQueue } from '@/libraries/offlineQueue'
@@ -22,6 +24,8 @@ import '@/styles/scss/bootstrap-icons.scss'
 
 // Тема и масштаб — до монтирования, чтобы не мигала тёмная тема при светлой настройке
 initSettings()
+// Отступы под меню (App.vue): без нижнего меню — место под кнопку «☰» сверху
+document.documentElement.classList.toggle('app-menu-burger', APP.MENU_STYLE === 'burger')
 setupViewportMinWidth()
 
 const app = createApp(App)
@@ -40,6 +44,7 @@ if (FEATURES.offlineQueue) apiQueue.start()
 // Нативные возможности: каждая сама проверяет свой флаг в FEATURES и наличие плагина
 initBackButton(router)
 initOpenLinks(router)
+initPwaInstall()
 requestGeoPermissionOnStartup()
 
 // iOS (в первую очередь standalone-PWA): после аварийной перезагрузки страницы

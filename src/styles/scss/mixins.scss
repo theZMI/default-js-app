@@ -20,7 +20,7 @@
   width: calc(100% - 12px);
   max-width: $site-max-width;
   margin: 0 auto;
-  padding: 18px 12px calc($site-bottom-menu-offset + 15px) 12px;
+  padding: 18px 12px calc(var(--app-bottom-offset, #{$site-bottom-menu-offset}) + 15px) 12px;
   border-radius: 12px 12px 0 0;
   background-color: $site-glass-bg;
   border: $site-glass-border;

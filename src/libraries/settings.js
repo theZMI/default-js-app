@@ -1,5 +1,5 @@
 // Пользовательские настройки приложения (страница «Настройки»): тема, размер текста,
-// вибро-отклик, язык. Хранятся в localStorage — он читается синхронно, поэтому тема и
+// звук, вибро-отклик, язык. Какие из них видит пользователь — APP.SETTINGS. Хранятся в localStorage — он читается синхронно, поэтому тема и
 // масштаб применяются ДО первой отрисовки, без «вспышки» тёмной темы при светлой настройке.
 // Значения по умолчанию — в src/config/app.js (APP.DEFAULT_SETTINGS).
 import {reactive, watch} from 'vue';
@@ -10,12 +10,20 @@ const STORAGE_KEY = 'app-settings';
 export const THEMES = {DARK: 'dark', LIGHT: 'light', SYSTEM: 'system'};
 export const TEXT_SCALES = {normal: 1, large: 1.12, xlarge: 1.25};
 
+// Тема и размер текста без блока «Оформление» (APP.SETTINGS.APPEARANCE) пользователь не выбирает —
+// всегда по умолчанию, даже если в localStorage осталось значение от прежней версии
+const FIXED = APP.SETTINGS?.APPEARANCE ? [] : ['theme', 'textScale'];
+
 function load() {
+    let saved = {};
     try {
-        return {...APP.DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')};
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
     } catch (e) {
-        return {...APP.DEFAULT_SETTINGS};
+        // приватный режим / битые данные — берём значения по умолчанию
     }
+    const result = {...APP.DEFAULT_SETTINGS, ...saved};
+    for (const key of FIXED) result[key] = APP.DEFAULT_SETTINGS[key];
+    return result;
 }
 
 export const settings = reactive(load());
@@ -61,4 +69,23 @@ export function initSettings() {
 
 export function resetSettings() {
     Object.assign(settings, APP.DEFAULT_SETTINGS);
+}
+
+// «Сбросить прогресс»: удалить ключи APP.SETTINGS.PROGRESS_KEYS и дать приложению сбросить
+// данные в памяти (реактивный прогресс, кэш уровней) — через onProgressReset(fn)
+const progressResetHandlers = [];
+
+export function onProgressReset(handler) {
+    progressResetHandlers.push(handler);
+}
+
+export function resetProgress() {
+    for (const key of APP.SETTINGS?.PROGRESS_KEYS || []) {
+        try {
+            localStorage.removeItem(key);
+        } catch (e) {
+            // нет доступа к localStorage — нечего и удалять
+        }
+    }
+    for (const handler of progressResetHandlers) handler();
 }

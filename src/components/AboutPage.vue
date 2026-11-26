@@ -1,8 +1,8 @@
 <template>
   <div class="default-page default-page-center text-center">
     <img src="@/assets/images/logo.png" alt="" class="about-logo">
-    <h3>{{ appName }}</h3>
-    <div class="about-text">{{ appDescription }}</div>
+    <h3>{{ $t('app.name') }}</h3>
+    <div class="about-text">{{ $t('app.description') }}</div>
 
     <!-- Только версия: в приложениях из заготовки она поднимается сама при каждой сборке APK/iOS и выкладке
          (их scripts/bump-version.mjs) и однозначно определяет сборку. Время сборки — только в отчётах об ошибках
@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import {APP} from '@/config/app';
 import {FEATURES} from '@/config/features';
 import {CURRENT_VERSION} from '@/native/appUpdates';
 import CheckUpdatesPage from '@/components/CheckUpdatesPage.vue';
@@ -28,8 +27,6 @@ export default {
   components: {CheckUpdatesPage},
   data() {
     return {
-      appName: APP.NAME,
-      appDescription: APP.DESCRIPTION,
       version: CURRENT_VERSION,
       showUpdateCheck: FEATURES.appUpdates,
     }

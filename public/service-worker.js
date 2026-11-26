@@ -5,13 +5,15 @@
 // Стратегии:
 //  - навигация и index.html — network-first (свежая версия при наличии сети,
 //    кэш как офлайн-фолбэк);
-//  - остальная статика — cache-first (JS/CSS-чанки хэшированы в имени; при смене
-//    нехэшированных файлов из public/ поднимите CACHE_VERSION).
+//  - остальная статика — cache-first (JS/CSS-чанки хэшированы в имени).
+//
+// Имя кэша — «<name>-<version>» из package.json: при сборке vite.config.mjs подставляет
+// его вместо метки ниже (плагин swCacheName). Версия поднимается при каждой выкладке
+// (scripts/bump-version.mjs) — у новой сборки новый кэш, старый удаляется в activate,
+// а сам файл SW меняется, и браузер его обновляет. Вручную ничего поднимать не нужно.
 //
 // Регистрируется только в настоящем браузере в production (см. main.js, FEATURES.pwa).
-const CACHE_VERSION = 'v1';
-// Префикс кэша — свой у каждого приложения, если на одном домене их несколько
-const CACHE_NAME = `default-js-app-${CACHE_VERSION}`;
+const CACHE_NAME = '__APP_CACHE_NAME__';
 
 const PRECACHE_URLS = [
     './',

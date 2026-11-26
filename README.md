@@ -43,15 +43,19 @@ make start     # dev-сервер: http://localhost:8080
 
 Элементы с атрибутом `data-no-swipe` (карта, ползунки) жест меню не запускают.
 
-**Остальное:** тёмная/светлая/системная тема, размер текста, вибро-отклик и язык (русский/английский) —
-страница «Настройки»; PWA с офлайн-кешем; индикатор сети; офлайн-очередь запросов; отчёты об ошибках;
-самообновление APK; понятные тексты ошибок; безопасный WebView (см. «Безопасность»).
+**Остальное:** страница «Настройки» единого вида (блоки включаются в `APP.SETTINGS`: тема и размер
+текста, звук, вибро-отклик, язык — 11 языков, сброс настроек и прогресса); меню — нижнее или кнопка «☰»
+(`APP.MENU_STYLE`); PWA с офлайн-кешем и пунктом «Установить приложение» в меню; индикатор сети;
+офлайн-очередь запросов; отчёты об ошибках; самообновление APK; номер версии поднимается сам
+при каждой сборке и выкладке; понятные тексты ошибок; безопасный WebView (см. «Безопасность»).
 
 ## Новое приложение из заготовки
 
 1. Скопировать обе папки: `default-js-app` → `my-app`, `default-js-app-cordova` → `my-app-cordova`.
-2. Здесь: `name`/`version` в `package.json`, `NAME`/`DESCRIPTION` в `src/config/app.js`,
-   название в `index.html` и `public/manifest.webmanifest`, префикс кэша в `public/service-worker.js`.
+2. Здесь: `name`/`version` в `package.json` (из них же — имя кэша service worker), `NAME` в
+   `src/config/app.js`, `app.name`/`app.description` во всех словарях `src/i18n/*.js`, название в
+   `index.html` и `public/manifest.webmanifest`, `DEPLOY_KEY` в `Makefile` (для `make deploy`).
+   Вид меню (`APP.MENU_STYLE`) и блоки настроек (`APP.SETTINGS`) — в `src/config/app.js`.
 3. В cordova-проекте: `id`, `name`, `description` в `config.xml`, `name` в `package.json`, путь
    `file:../my-app/native-plugins/...` у своих плагинов в `package.json`.
 4. Иконка: картинку 1024×1024 — в `resources/icon.png`, затем `make icons`.
@@ -68,6 +72,7 @@ make start     # dev-сервер: http://localhost:8080
 | `make install` | зависимости приложения и cordova-проекта (один раз) |
 | `make start` | dev-сервер с горячей перезагрузкой, http://localhost:8080 |
 | `make build-web` | сайт/PWA → `dist/` (выкладывается на любой статический хостинг) |
+| `make deploy` | новая версия, сборка и заливка на хостинг (`../hosting/deploy_static_apps.py`, ключ — `DEPLOY_KEY`) |
 | `make build-android` | тестовый (debug) APK → `dist-apps/<version>.apk` |
 | `make install-android` | поставить этот APK на подключённый телефон/эмулятор (`adb`) |
 | `make keystore` | ключ подписи release-сборок (один раз на приложение) |
@@ -99,7 +104,9 @@ Debug-APK подписан общим отладочным ключом — го
    Рекомендуется включить Play App Signing — тогда Google хранит итоговый ключ, а ваш — только ключ загрузки.
 
 Каждый выпуск:
-1. Поднимите `version` в `package.json` (Google Play примет только бо́льшую версию: 1.2.3 → versionCode 10203).
+1. Версию поднимать не нужно: `make build-android-release` (как и `build-android`, `build-ios`, `deploy`)
+   сам увеличивает последнюю цифру в `package.json` (`scripts/bump-version.mjs`); Google Play примет только
+   бо́льшую версию (1.2.3 → versionCode 10203). После сборки закоммитьте `package.json`.
 2. `make build-android-release` → `dist-apps/<version>-release.aab` загружается в Play Console,
    `dist-apps/<version>-release.apk` — для самообновления и установки вручную.
 
@@ -139,14 +146,14 @@ export ANDROID_AVD_HOME=~/.android/avd
 | Файл | Что в нём |
 |---|---|
 | `src/config/features.js` | **какие возможности устройства включены** (по платформам) |
-| `src/config/app.js` | имя, жесты, pull-to-refresh, обновления, вход (`AUTH`), карта (`MAP`), отчёты об ошибках, настройки по умолчанию |
+| `src/config/app.js` | имя, жесты, pull-to-refresh, обновления, вход (`AUTH`), карта (`MAP`), отчёты об ошибках, вид меню (`MENU_STYLE`), блоки и значения настроек (`SETTINGS`, `DEFAULT_SETTINGS`) |
 | `src/config/platform.js` | платформа сборки: `PLATFORM`, `isWeb/isAndroid/isIos` |
 | `src/envs/local.js`, `prod.js` | адрес бэкенда, ссылка на APK (с секретным кодом), DEBUG. Не в git |
 | `src/router/menu.js` | пункты бокового и нижнего меню (подписи — ключи перевода) |
 | `src/router/routes.js` | маршруты (hash-история — работает и под `file://`) |
-| `src/i18n/ru.js`, `en.js` | переводы интерфейса (`$t('menu.home')`); раздел «Примеры» — только на русском |
+| `src/i18n/*.js` | переводы оболочки на 11 языков (`$t('menu.home')`, ключи — как в `ru.js`, проверяет `tests/i18n.test.js`); раздел «Примеры» — только на русском |
 | `src/styles/scss/theme.scss` | цвета тёмной и светлой темы (CSS-переменные) |
-| `vite.config.mjs` | сборка: относительные пути, версия/время сборки, отбор иконок |
+| `vite.config.mjs` | сборка: относительные пути, версия/время сборки, отбор иконок, имя кэша SW из `package.json` |
 
 Окружение: dev-сервер → `local`, любая сборка → `prod`; `VUE_APP_ENV=local make build-android` —
 APK, который ходит на локальный бэкенд (в `local.js` тогда нужен IP компьютера, а не localhost).
@@ -264,7 +271,8 @@ cordova plugin add ../my-app/native-plugins/cordova-plugin-open-link --save \
 - `libraries/Api.js` — запросы к бэкенду: `API_ROOT_URL = SITE_ROOT_URL + 'api/v1.0/'`, ответы
   `{is_success, is_error, data}`, Bearer-токен (`Api.authToken`), обработчик 401, индикатор сети.
 - `libraries/localDB.js` — IndexedDB (idb): таблицы, key-value, Blob.
-- `libraries/settings.js` — настройки пользователя (тема, размер текста, вибро-отклик, язык).
+- `libraries/settings.js` — настройки пользователя (тема, размер текста, звук, вибро-отклик, язык), сброс
+  прогресса (`resetProgress`, `onProgressReset`).
 - `helpers/errors.js` — `userErrorMessage(e)`: понятный текст ошибки без технических деталей.
 - `components/UI/` — глобальные компоненты: `my-loader`, `info-block`, `popup-message`, `network-status`, `switcher-sizes`.
 - `styles/scss/ui.scss` — общие блоки в стиле zmi-music-player-app: `page-title`, `page-lead`,
