@@ -144,25 +144,36 @@ export default {
   display: flex;
   gap: 6px;
 
+  // Кнопки «Тема» и «Размер текста» — одной высоты: min-height с запасом на подпись в две строки
+  // («Очень крупный» на узком экране переносится), содержимое — по центру
   button {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
+    min-height: 80px;
     padding: 10px 4px;
     border-radius: 12px;
     border: $site-glass-border;
     background: var(--app-inset-bg);
     color: var(--app-fg);
     font-size: 13px;
+    line-height: 1.2;
+
+    // Значок темы и «Аа» разного кегля — в блоке одной высоты, прижаты к низу: подписи на одной линии
+    .bi,
+    span {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 24px;
+      line-height: 1;
+    }
 
     .bi {
       font-size: 20px;
-    }
-
-    span {
-      line-height: 1;
     }
 
     &.is-active {
