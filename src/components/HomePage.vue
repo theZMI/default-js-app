@@ -3,6 +3,12 @@
     <h1 class="page-title">{{ $t('app.name') }}</h1>
     <div class="page-lead">{{ $t('app.description') }}</div>
 
+    <!-- «С чего начать» — сверху и простым текстом, без рамки: это пояснение, а не кнопка -->
+    <section class="home-start">
+      <h2 class="home-start-title"><i class="bi bi-lightbulb"></i> {{ $t('home.startTitle') }}</h2>
+      <p class="home-start-text">{{ $t('home.startText') }}</p>
+    </section>
+
     <div class="menu-tiles">
       <router-link v-if="hasExamples" to="/examples" class="menu-tile">
         <div class="menu-tile-icon"><i class="bi bi-grid"></i></div>
@@ -26,14 +32,6 @@
         </div>
       </router-link>
     </div>
-
-    <section class="glass-card">
-      <div class="glass-card-header">
-        <i class="bi bi-lightbulb"></i>
-        <span>{{ $t('home.startTitle') }}</span>
-      </div>
-      <div class="glass-card-hint mb-0">{{ $t('home.startText') }}</div>
-    </section>
   </div>
 </template>
 
@@ -50,3 +48,32 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@/styles/scss/my-vars.scss";
+
+.home-start {
+  margin-bottom: 1.25rem;
+}
+
+.home-start-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+
+  // Акцент темы — читается и в тёмной, и в светлой теме
+  .bi {
+    color: $site-active-element-bg;
+  }
+}
+
+.home-start-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(var(--app-fg-rgb), 0.7);
+}
+</style>
