@@ -11,7 +11,16 @@
           <li v-for="item in menuTop" :key="item.link">
             <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
           </li>
-          <!-- Установка сайта как приложения (PWA): системное окно — по нажатию; на iPhone — подсказка -->
+        </ul>
+      </div>
+      <div class="offcanvas-menu-list-bottom" v-if="menuBottom.length || pwa.canPrompt || pwa.iosHint">
+        <div class="header text-secondary">{{ $t('menu.extra') }}</div>
+        <ul class="list-unstyled" data-bs-dismiss="offcanvas">
+          <li v-for="item in menuBottom" :key="item.link">
+            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
+          </li>
+          <!-- Установка сайта как приложения (PWA) — только в браузере и если браузер это умеет:
+               системное окно — по нажатию; на iPhone/iPad — подсказка ниже (src/native/pwaInstall.js) -->
           <li v-if="pwa.canPrompt">
             <button type="button" class="menu-item menu-install" @click="install">
               <i class="bi bi-download" aria-hidden="true"></i><span>{{ $t('menu.install') }}</span>
@@ -21,14 +30,6 @@
         <p v-if="pwa.iosHint" class="menu-install-hint">
           <i class="bi bi-box-arrow-up" aria-hidden="true"></i> {{ $t('menu.installIos') }}
         </p>
-      </div>
-      <div class="offcanvas-menu-list-bottom" v-if="menuBottom.length">
-        <div class="header text-secondary">{{ $t('menu.extra') }}</div>
-        <ul class="list-unstyled" data-bs-dismiss="offcanvas">
-          <li v-for="item in menuBottom" :key="item.link">
-            <router-link class="menu-item" :class="{active: isActive(item)}" :to="item.link"><span>{{ $t(item.name) }}</span></router-link>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
@@ -179,7 +180,7 @@ export default {
     }
   }
 
-  // Кнопка установки — как пункт меню, со значком
+  // Кнопка установки — как пункт меню, со значком того же цвета, что текст
   .menu-install {
     border: 0;
     background: none;
@@ -189,12 +190,11 @@ export default {
 
     .bi {
       font-size: 18px;
-      color: $primary;
     }
   }
 
   .menu-install-hint {
-    margin: 4px 0 0;
+    margin: 0 0 10px;
     font-size: 14px;
     line-height: 1.4;
     color: rgba(var(--app-fg-rgb), 0.6);

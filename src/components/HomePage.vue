@@ -5,7 +5,7 @@
 
     <!-- «С чего начать» — сверху и простым текстом, без рамки: это пояснение, а не кнопка -->
     <section class="home-start">
-      <h2 class="home-start-title"><i class="bi bi-lightbulb"></i> {{ $t('home.startTitle') }}</h2>
+      <h2 class="home-start-title">{{ $t('home.startTitle') }}</h2>
       <p class="home-start-text">{{ $t('home.startText') }}</p>
     </section>
 
@@ -50,24 +50,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/scss/my-vars.scss";
-
 .home-start {
   margin-bottom: 1.25rem;
 }
 
 .home-start-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   margin: 0 0 6px;
   font-size: 18px;
   font-weight: 700;
-
-  // Акцент темы — читается и в тёмной, и в светлой теме
-  .bi {
-    color: $site-active-element-bg;
-  }
 }
 
 .home-start-text {
